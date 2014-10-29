@@ -1,0 +1,1 @@
+var ajaxLocation = "http://easteregg.baademedia.dk/lib/";
