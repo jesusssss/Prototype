@@ -6,7 +6,6 @@
             <div id="map">
                 <!-- INSERT BAGROUND IMAGE AND LOADER GIF -->
             </div>
-            <h2>Page 1</h2>
         </div>
 
         <!--Second Slide-->
@@ -19,16 +18,17 @@
         <!--Third Slide-->
         <div class="swiper-slide">
             <h2>User info:</h2>
-            <span id="username"></span>
-            <span id="password"></span>
+            <div id="id"></div>
+            <div id="username"></div>
+            <div id="password"></div>
             <div>
                 <button onclick="user.logout();">Logout</button>
             </div>
         </div>
-        <script>
-            $("#username").html(user.getUsername());
-            $("#password").html(user.getPassword());
-        </script>
-        <!--Etc..-->
     </div>
+    <script>
+        $("#id").html(user.id);
+        $("#username").html(user.username);
+        $("#password").html(user.password);
+    </script>
 </div>

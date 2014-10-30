@@ -1,7 +1,6 @@
 /****************** GLOBAL VARS *********************/
-var pictureSource;   // picture source
-var destinationType; // sets the format of returned value
-var watchID; //Current pos
+//var pictureSource;   // picture source
+//var destinationType; // sets the format of returned value
 
 /****************** DEVICE READY FUNCTIONS *****************/
 /** Called on <body> tag **/
@@ -35,9 +34,9 @@ function onReady() {
         e.preventDefault();
       });
 
-    /* Init Geolocation - first */
-    var options = { timeout: 30000 };
-    navigator.geolocation.getCurrentPosition(geoSuccess, geoError); /* Initiate maps from GEO location */
+//    /* Init Geolocation - first */
+//    var options = { timeout: 30000 };
+//    navigator.geolocation.getCurrentPosition(geoSuccess, geoError); /* Initiate maps from GEO location */
 
     /** Catch form ajax requests **/
     $("form.ajax").submit(function(e) {

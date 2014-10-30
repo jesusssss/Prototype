@@ -24,9 +24,7 @@ var userOb = function() {
                       var result = $.parseJSON(result);
                       if(result.success === true) {
                         that.init(result.id, result.username, result.password);
-                        var userSettings = {"id": result.id, "username": result.username, "password": result.password};
-                        localStorage.setItem("user", JSON.stringify(userSettings));
-                        that.loginSuccess();
+                        that.loginSuccess(result);
                       } else {
                         that.loginError();
                       }
@@ -35,21 +33,20 @@ var userOb = function() {
 
     }
 
+    this.load = function() {
+        var userSettings = JSON.parse(localStorage.getItem("user"));
+        this.init(userSettings.id, userSettings.username, userSettings.password);
+    }
+
     this.loginError = function() {
         toast("Error at login - try again");
     }
 
-    this.loginSuccess = function() {
+    this.loginSuccess = function(result) {
+        var userSettings = {"id": result.id, "username": result.username, "password": result.password};
+        localStorage.setItem("user", JSON.stringify(userSettings));
         toast("Login success");
         location.reload();
-    }
-
-    this.getUsername = function() {
-        return this.username;
-    }
-
-    this.getPassword = function() {
-        return this.password;
     }
 
     this.logout = function() {

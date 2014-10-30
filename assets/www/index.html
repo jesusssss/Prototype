@@ -25,15 +25,6 @@
         <div id="content">
 
         </div>
-        <script>
-            var user = new userOb();
-            if(localStorage.getItem("user") === null) {
-                $("#content").load("view/login.html");
-            } else {
-                var userSettings = JSON.parse(localStorage.getItem("user"));
-                user.init(userSettings.id, userSettings.username, userSettings.password);
-                $("#content").load("view/home.html");
-            }
-        </script>
+        <script type="text/javascript" src="js/toolbox.js"></script>
     </body>
 </html>
