@@ -40,7 +40,7 @@
 //}
 
 var mapsOb = function() {
-    this.zoom = 19;
+    this.zoom = 18;
     this.mapTypeId = google.maps.MapTypeId.ROADMAP;
     this.radius = 20;
     this.fillColor = '#cccccc';
@@ -55,13 +55,17 @@ var mapsOb = function() {
     this.circle = null;
     this.radiusToHit = null;
     this.eggs = {};
+    this.bounds = {};
+    this.markers = [];
+    this.circles = [];
     var that = this;
 
     this.init = function() {
         var options = {
             enableHighAccuracy: this.enableHighAccuracy,
             timeout:            this.timeout,
-            maximumAge          : 0
+            frequency:          5000,
+            maximumAge:         0
         }
         this.watchID = navigator.geolocation.watchPosition(this.success, this.error, options);
     }
@@ -70,6 +74,8 @@ var mapsOb = function() {
         var googleLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
         if(that.mapDrawn === false) {
+            that.getEggs();
+
             var mapOptions = {
                 zoom: that.zoom,
                 center: googleLatLng,
@@ -96,25 +102,9 @@ var mapsOb = function() {
                 fillColor: that.fillColor
             });
             that.circle.bindTo('center', that.me, 'position');
-
-            var makerToFindLatLng = new google.maps.LatLng(57.047849, 9.965999);
-            var markerToFind = new google.maps.Marker({
-                position: makerToFindLatLng,
-                map: that.map,
-                optimized: false,
-                title: 'FIND ME'
-            });
-
-            that.radiusToHit = new google.maps.Circle({
-                map: that.map,
-                radius: 20,
-                fillColor: '#000000'
-            });
-            that.radiusToHit.bindTo('center', markerToFind, 'position');
-
-            that.getEggs();
         }
 
+        that.map.panTo(googleLatLng);
         that.me.setPosition(googleLatLng);
 
         /* setVisible on and off fixes bug from Google API v3 */
@@ -122,15 +112,62 @@ var mapsOb = function() {
         that.circle.setCenter(googleLatLng);
         that.circle.setVisible(true);
 
-        that.map.panTo(googleLatLng);
 
-        if (that.radiusToHit.getBounds().contains(googleLatLng)) {
-            navigator.notification.beep(1);
-            navigator.notification.vibrate(2000);
-            alert("YOU FOUND ME");
-        } else {
-            toast("Im not here");
-        }
+
+        $.each(that.circles, function(eggId, item) {
+            if(item.getBounds().contains(googleLatLng)) {
+                toast("Found egg");
+                that.showGift(item.id);
+            }
+        });
+    }
+
+    this.showGift = function(id) {
+        $.ajax({ url: ajaxLocation+"getGift.php",
+             data: {
+                eggid: id,
+                },
+             type: 'post',
+             success:
+             function(result) {
+                  var result = $.parseJSON(result);
+                  $.each(result, function(index, item) {
+                    /* Show egg prompt */
+                  for (var i = 0; i < that.markers.length; i++) {
+                        if (that.markers[i].id == id) {
+                            that.markers[i].setVisible(false);
+                            /* Remove the marker from Map */
+                            that.markers[i].setMap(null);
+
+                            /* Remove the marker from array. */
+                            that.markers.splice(i, 1);
+                        }
+                    }
+                    for (var i = 0; i < that.circles.length; i++) {
+                        if (that.circles[i].id == id) {
+                            that.circles[i].setVisible(false);
+                            /* Remove the marker from Map */
+                            that.circles[i].setMap(null);
+
+                            /* Remove the marker from array. */
+                            that.circles.splice(i, 1);
+                        }
+                    }
+//                    navigator.notification.confirm(
+//                        'You found an egg!',  // message
+//                        that.onFoundEgg,              // callback to invoke with index of button pressed
+//                        'New egg',            // title
+//                        'Show me, Hide'          // buttonLabels
+//                    );
+                  });
+              }
+        });
+    }
+
+    this.onFoundEgg = function(buttonIndex) {
+        alert(buttonIndex);
+        $("#showEgg img").attr("src",item.data);
+        $("#showEgg").show();
     }
 
     this.error = function(error) {
@@ -138,7 +175,6 @@ var mapsOb = function() {
     }
 
     this.getEggs = function() {
-        alert(user.id);
         $.ajax({ url: ajaxLocation+"getEggs.php",
              data: {
                 userid: user.id,
@@ -154,9 +190,39 @@ var mapsOb = function() {
         });
     }
 
+    this.alertEggs = function() {
+//        $("#eggs").html(JSON.stringify(this.bounds));
+        $.each(this.bounds, function(index, item) {
+            $("#eggs").append(JSON.stringify(item));
+        });
+    }
+
     this.addEgg = function(lat, lng, radius, eggId) {
-        /* TODO Lav så der auto genereres "æg" ud fra DB */
-        /* Funktionen er kaldt fra funktionen getEggs() oven over */
+        var radius = parseInt(radius);
+        var visible = false; /* Change for visiblity of eggs */
+
+        var eggLatLng = new google.maps.LatLng(lat, lng);
+        var markEgg = new google.maps.Marker({
+            position: eggLatLng,
+            map: that.map,
+            optimized: false,
+            title: 'Egg',
+            visible: visible
+        });
+        markEgg.id = eggId;
+        that.markers.push(markEgg);
+
+        var eggCircle = new google.maps.Circle({
+            map: that.map,
+            radius: radius,
+            fillColor: '#000000',
+            visible: visible
+        });
+        eggCircle.id = eggId;
+        that.circles.push(eggCircle);
+        eggCircle.bindTo('center', markEgg, 'position');
+
+        that.bounds[eggId] = eggCircle.getBounds();
     }
 
 }

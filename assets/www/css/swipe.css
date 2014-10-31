@@ -98,10 +98,10 @@ sizes, pagination, etc.
 }
 .swiper-slide {
 	/* Specify Slides's Size: */
-
 	width: 100%;
 	height: 100%;
 	background: #ccc;
+	position: relative; /* Elements will position to this */
 }
 .swiper-slide-active {
 	/* Specific active slide styling: */
