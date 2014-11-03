@@ -16,9 +16,10 @@
 /* ===============================================================
 Basic Swiper Styles
 ================================================================*/
-.swiper-container {
+.swiper-container, .login-container {
 	margin:0 auto;
 	position:relative;
+	box-sizing: border-box;
 	overflow:hidden;
 	-webkit-backface-visibility:hidden;
 	-moz-backface-visibility:hidden;
@@ -72,9 +73,9 @@ Basic Swiper Styles
 }
 .swiper-slide {
 	float: left;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	box-sizing: content-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 /* IE10 Windows Phone 8 Fixes */
@@ -89,19 +90,18 @@ Basic Swiper Styles
 Your custom styles, here you need to specify container's and slide's
 sizes, pagination, etc.
 ================================================================*/
-.swiper-container {
+.swiper-container, .login-container {
 	/* Specify Swiper's Size: */
-
 	width:100%;
 	height: 100%;
-	background: #ccc;
+	box-sizing: border-box;
 }
 .swiper-slide {
 	/* Specify Slides's Size: */
 	width: 100%;
 	height: 100%;
-	background: #ccc;
 	position: relative; /* Elements will position to this */
+    box-sizing: border-box;
 }
 .swiper-slide-active {
 	/* Specific active slide styling: */

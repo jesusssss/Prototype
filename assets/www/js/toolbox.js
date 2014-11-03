@@ -8,3 +8,11 @@ if(localStorage.getItem("user") === null) {
     user.load();
     maps.init();
 }
+
+$(document).ajaxStart(function () {
+    $("#loading").fadeIn("slow");
+});
+
+$(document).ajaxComplete(function () {
+    $("#loading").fadeOut("slow");
+});

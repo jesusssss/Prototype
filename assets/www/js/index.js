@@ -24,6 +24,20 @@ function onReady() {
           }
     });
 
+    var loginSwiper = $('.login-container').swiper({
+          mode:'vertical',
+          loop: false,
+          resistance: '100%',
+          noSwiping: true
+        });
+
+        $("#signup").on("click", function() {
+            loginSwiper.swipeTo(1);
+        });
+        $("#forgotPassword").on("click", function() {
+            loginSwiper.swipeTo(2);
+        });
+
     $(".tabs a").on('touchstart mousedown',function(e){
         e.preventDefault();
         $(".tabs .active").removeClass('active');

@@ -1,5 +1,91 @@
-<form class="ajax">
-    <input id="username" type="text" name="username"/>
-    <input id="password" type="text" name="password"/>
-    <input type="submit" value="submit" onclick="user.login($('#username').val(), $('#password').val());"/>
-</form>
+<div class="login-container">
+    <div class="swiper-wrapper">
+        <div class="fixedTop">
+            <div class="center">
+                <h1>EasterEgg</h1>
+            </div>
+        </div>
+        <div class="swiper-slide background blue">
+            <div class="center">
+                <h2>Login</h2>
+            </div>
+            <form class="ajax loginForm">
+                <div class="inputHolder">
+                    <div class="label">
+                        <img src="img/userIcon.png" width="60" alt=""/>
+                    </div>
+                    <input type="text" placeholder="Username" name="username" id="username"/>
+                    <div class="clear"></div>
+                </div>
+                <div class="inputHolder">
+                    <div class="label">
+                        <img src="img/lockIcon.png" width="60" alt=""/>
+                    </div>
+                    <input type="password" placeholder="Password" name="password" id="password"/>
+                    <div class="clear"></div>
+                </div>
+                <input class="loginSubmit pink" type="submit" value="Login" onclick="user.login($('#username').val(), $('#password').val());"/>
+            </form>
+            <div class="bottomLogin">
+                <div id="forgotPassword" class="left">
+                    Forgot password?
+                </div>
+                <div id="signup" class="right">
+                    Sign up
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="swiper-slide background pink">
+            <div class="center">
+                <h2>Sign up</h2>
+            </div>
+            <form class="ajax loginForm">
+                <div class="inputHolder">
+                    <div class="label">
+                        <img src="img/blueMailIcon.png" width="60" alt=""/>
+                    </div>
+                    <input type="text" placeholder="Email" name="email" id="createEmail"/>
+                    <div class="clear"></div>
+                </div>
+                <div class="inputHolder">
+                    <div class="label">
+                        <img src="img/blueUserIcon.png" width="60" alt=""/>
+                    </div>
+                    <input type="text" placeholder="Username" name="username" id="createUsername"/>
+                    <div class="clear"></div>
+                </div>
+                <div class="inputHolder">
+                    <div class="label">
+                        <img src="img/blueLockIcon.png" width="60" alt=""/>
+                    </div>
+                    <input type="text" placeholder="Password" name="password" id="createPassword"/>
+                    <div class="clear"></div>
+                </div>
+                <div class="inputHolder">
+                    <div class="label">
+                        <img src="img/blueLockIcon.png" width="60" alt=""/>
+                    </div>
+                    <input type="text" placeholder="Password again" name="passwordTest" id="createPasswordTest"/>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <input class="loginSubmit blue" type="submit" value="Sign up!" onclick="user.create($('#createEmail').val(), $('#createUsername').val(), $('#createPassword').val(), $('#createPasswordTest').val());"/>
+            </form>
+        </div>
+        <div class="swiper-slide background darkGrey">
+            <div class="center">
+                <h2>Lost password?</h2>
+            </div>
+            <form class="ajax loginForm">
+                <div class="inputHolder">
+                    <input type="text" placeholder="Email" name="email" id="forgotusername"/>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <input class="loginSubmit" type="submit" value="Get info" onclick="user.forgotPassword($('#forgotusername').val());"/>
+            </form>
+        </div>
+    </div>
+</div>
+
