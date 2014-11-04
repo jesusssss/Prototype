@@ -1,22 +1,80 @@
-<div class="tabs"><a href="#" class="active">Tab 1</a><a href="#">Tab 2</a><a href="#">Tab 3</a></div>
 <div class="swiper-container">
     <div class="swiper-wrapper">
         <!--First Slide-->
-        <div class="swiper-slide">
-            <div id="map">
-                <!-- INSERT BAGROUND IMAGE AND LOADER GIF -->
+        <div class="swiper-slide darkGrey">
+            <div class="fixedProfile hidden">
+                <div class="fixedProfileImage">
+
+                </div>
+                <div class="fixedFullName">
+
+                </div>
             </div>
+            <div class="swiper-container-profile">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div id="profileMenu">
+                            <!-- Profile image -->
+                            <div class="profileImage">
+                            </div>
+                            <div class="profileInfo">
+                                <div id="fullName"></div>
+                                <div id="fillUsername"></div>
+                            </div>
+                            <div class="profileNav">
+                                <ul>
+                                    <li id="navToFiends">
+                                        <div class="icon"><img src="img/friendsIcon.png" height="40" alt=""/></div> <div class="navText">Friends</div>
+                                    </li>
+                                    <li id="navToSettings">
+                                        <div class="icon"><img src="img/settingsIcon.png" width="40" alt=""/></div> <div class="navText">Settings</div>
+                                    </li>
+                                    <li onclick="user.logout();">
+                                        <div class="icon"><img src="img/shutdownIcon.png" width="40" alt=""/></div> <div class="navText">Logout</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide friendPadding">
+                        <h2>Friends</h2>
+                    </div>
+                    <div class="swiper-slide friendPadding">
+                        <h2>Settings</h2>
+                    </div>
+                </div>
+            </div>
+            <!-- Live fill information from UserOB -->
+            <script>
+                $(".profileImage").attr("style", "background-image: url('"+user.profileImage+"'); background-repeat: no-repeat; background-position: center center; background-size: cover;");
+                $(".fixedProfileImage").attr("style", "background-image: url('"+user.profileImage+"'); background-repeat: no-repeat; background-position: center center; background-size: cover;");
+                $("#fullName").html(user.firstname + " " + user.lastname);
+                $(".fixedFullName").html(user.firstname + " " +user.lastname);
+                $("#fillUsername").html(user.username);
+            </script>
         </div>
 
         <!--Second Slide-->
-        <div class="swiper-slide" class="active">
-            <h2>Page 2</h2>
-            <button onclick="capturePhoto()">Toast</button>
-            <img class="smallImage" src="" alt=""/>
+        <div class="swiper-slide">
+            <div class="absoluteTop">
+                <div class="center">
+                    <h1>EasterEgg</h1>
+                </div>
+            </div>
+            <div class="absoluteTopLeft">
+                Yes
+            </div>
+            <div class="absoluteTopRight">
+                No
+            </div>
+            <div id="overlay"></div>
+            <div id="map"></div>
         </div>
 
         <!--Third Slide-->
         <div class="swiper-slide">
+            <button onclick="capturePhoto()">Toast</button>
+            <img class="smallImage" src="" alt=""/>
             <div id="showEgg">
                 <img src="" alt="" width="100%" height="100%"/>
             </div>
@@ -24,7 +82,9 @@
             <div id="id"></div>
             <div id="username"></div>
             <div id="password"></div>
-            <div id="eggs"></div>
+            <div>
+                <img id="image" src="" width="50" height="50" alt=""/>
+            </div>
             <div>
                 <button onclick="maps.alertEggs();">Show eggs</button>
             </div>
@@ -37,5 +97,10 @@
         $("#id").html(user.id);
         $("#username").html(user.username);
         $("#password").html(user.password);
+        $("#image").attr("src",user.profileImage);
+        $("#firstname").html(user.firstname);
+        $("#lastname").html(user.lastname);
+        $("#eggCount").html(user.eggCount);
+        mySwiper.reInit()
     </script>
 </div>

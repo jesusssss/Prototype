@@ -1,8 +1,8 @@
 var mapsOb = function() {
-    this.zoom = 18;
+    this.zoom = 17;
     this.mapTypeId = google.maps.MapTypeId.ROADMAP;
-    this.radius = 20;
-    this.fillColor = '#cccccc';
+    this.radius = 30;
+    this.fillColor = '#f56f6c';
     this.disableDefaultUI = true;
     this.timeout = Infinity;
     this.enableHighAccuracy = true;
@@ -35,13 +35,27 @@ var mapsOb = function() {
         if(that.mapDrawn === false) {
             that.getEggs();
 
+            function CoordMapType(tileSize) {
+              this.tileSize = tileSize;
+            }
+
+            CoordMapType.prototype.getTile = function(coord, zoom, ownerDocument) {
+              var div = ownerDocument.createElement('div');
+              div.style.width = this.tileSize.width + 'px';
+              div.style.height = this.tileSize.height + 'px';
+              div.style.fontSize = '10';
+              div.style.backgroundColor = '#205f69';
+              div.style.opacity = 0.7;
+              return div;
+            };
+
             var mapOptions = {
                 zoom: that.zoom,
                 center: googleLatLng,
                 mapTypeId: that.mapTypeId,
-//                draggable: false,
-//                scrollwheel: false,
-//                panControl: false,
+                draggable: false,
+                scrollwheel: false,
+                panControl: false,
                 disableDefaultUI: that.disableDefaultUI
             }
 
@@ -52,15 +66,26 @@ var mapsOb = function() {
                 position: googleLatLng,
                 map: that.map,
                 optimized: false,
+                zIndex: 99999,
+                icon: 'img/mapsIcon.png',
                 title: 'Your position!'
             });
 
             that.circle = new google.maps.Circle({
                 map: that.map,
                 radius: that.radius,
-                fillColor: that.fillColor
+                fillColor: that.fillColor,
+                strokeOpacity: 0
             });
             that.circle.bindTo('center', that.me, 'position');
+
+            that.map.overlayMapTypes.insertAt(
+                  0, new CoordMapType(new google.maps.Size(256, 256)));
+//            google.maps.event.addListenerOnce(that.map, 'idle', function(){
+//                setTimeout(function() {
+//                    $("#blueOverlay").fadeIn("slow");
+//                }, 2500);
+//            });
         }
 
         that.map.panTo(googleLatLng);
