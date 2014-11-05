@@ -79,7 +79,6 @@ var userOb = function() {
 
     this.loginSuccess = function(result) {
     /** FETCH USER INFO **/
-    alert(result.id);
         $.ajax({ url: ajaxLocation+"getUserInfo.php",
              data: {
                 id: result.id,
@@ -89,7 +88,6 @@ var userOb = function() {
              success:
              function(userData) {
                   userData = $.parseJSON(userData);
-                  alert(userData.firstname);
                   var userSettings = {"id": result.id,
                                       "username": result.username,
                                       "password": result.password,
@@ -104,6 +102,73 @@ var userOb = function() {
                   location.reload();
               }
         });
+    }
+
+    this.newProfileImage = function(imageData) {
+        $.ajax({ url: ajaxLocation+"updateProfileImage.php",
+             data: {
+                id: this.id,
+                image: imageData
+                },
+             type: 'post',
+             success:
+             function(userData) {
+
+              }
+        });
+
+        var newSettings = {
+            "id": this.id,
+            "username": this.username,
+            "password": this.password,
+            "profileImage": "data:image/jpeg;base64,"+imageData,
+            "firstname": this.firstname,
+            "lastname": this.lastname,
+            "eggCount": this.eggCount
+        };
+        localStorage.setItem("user", JSON.stringify(newSettings));
+        this.load();
+        this.refreshUser();
+        toast("Profile image has been saved");
+    }
+
+    this.newFullName = function(firstname, lastname) {
+        $.ajax({ url: ajaxLocation+"updateFullName.php",
+             data: {
+                id: this.id,
+                firstname: firstname,
+                lastname: lastname
+                },
+             type: 'post',
+             success:
+             function(userData) {
+
+              }
+        });
+        var newSettings = {
+            "id": this.id,
+            "username": this.username,
+            "password": this.password,
+            "profileImage": this.profileImage,
+            "firstname": firstname,
+            "lastname": lastname,
+            "eggCount": this.eggCount
+        };
+        localStorage.setItem("user", JSON.stringify(newSettings));
+        this.load();
+        this.refreshUser();
+        toast("Your name has now changed");
+    }
+
+    this.refreshUser = function() {
+        $(".profileImage").attr("style", "background-image: url('"+user.profileImage+"'); background-repeat: no-repeat; background-position: center center; background-size: cover;");
+        $(".fullname").html(user.firstname + " " + user.lastname);
+        $("div.username").html(user.username);
+        $("div.firstname").html(user.firstname);
+        $("div.lastname").html(user.lastname);
+        $("input.firstname").val(user.firstname);
+        $("input.lastname").val(user.lastname);
+        $("input.username").val(user.username);
     }
 
     this.logout = function() {

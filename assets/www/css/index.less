@@ -6,6 +6,8 @@
 @blue: #205f69;
 @grey: #7a7d86;
 @darkGrey: #252932;
+@altGrey: #1c2127;
+@green: #5eb73c;
 
 .boxSizing {
     box-sizing: border-box;
@@ -66,18 +68,23 @@ h1 {
 
 h2, h3, h4 {
     font-family: 'Open sans', Arial, sans-serif;
+    font-weight: normal;
 }
 
 h2 {
-    font-size: 25px;
+    font-size: 23px;
+    margin-bottom: 0px;
 }
 
 h3 {
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: light;
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 h4 {
-    font-size: 17px;
+    font-size: 16px;
 }
 
 html {
@@ -193,6 +200,14 @@ img[src="http://maps.gstatic.com/mapfiles/api-3/images/google_white2.png"], a[hr
 
 .darkGrey {
     background: @darkGrey;
+}
+
+.green {
+    background: @green;
+}
+
+.altGrey {
+    background: @altGrey;
 }
 
 .fixedTop, .absoluteTop, .absoluteTopLeft, .absoluteTopRight {
@@ -361,8 +376,111 @@ img[src*="mapsIcon"] {
     }
 }
 
+#settings {
+    button {
+         .radius(5px);
+        width: 100%;
+        box-sizing: border-box;
+        font-family: 'Lobster', Arial, sans-serif;
+        font-size: 17px;
+        color: #fff;
+        text-align: center;
+        border: none;
+        padding: 15px 0px;
+        margin-bottom: 10px;
+    }
+}
+
+#changeProfileImage {
+    .center {
+        .profileImage {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0px 0px 0px 7px #2e323b;
+            box-sizing: border-box;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+    }
+    &:after {
+        content: "";
+        display: block;
+        width: 0;
+        height: 0;
+        clear: both;
+    }
+}
+
+#changeName {
+    margin-top: 25px;
+    .inputHolder {
+        width: 48%;
+        .label {
+            font-size: 14px;
+            color: #fff;
+        }
+        input {
+            text-align: center;
+            width: 100%;
+            padding: 3%;
+            box-sizing: border-box;
+            .radius(3px);
+            font-size: 13px;
+            border: none;
+        }
+        &:after {
+            content: "";
+            width: 0;
+            height: 0;
+            clear: both;
+            display: block;
+        }
+    }
+    .first {
+        float:left;
+    }
+    .last {
+        float: right;
+    }
+    &:after {
+        width: 0;
+        height: 0;
+        display: block;
+        content: "";
+        clear: both;
+    }
+}
+
+.showChanger {
+    padding: 10px;
+    -webkit-transform: translate3d(0, 0, 0);
+    box-sizing: border-box;
+}
+
 .friendPadding {
-    padding-top: 60px;
+    padding: 60px 20px 20px;
+    box-sizing: border-box;
+    h2 {
+        position: absolute;
+        top:45px;
+        left: 0;
+        background: #1c2127;
+        display: inline-block;
+        padding: 5px 10px;
+        border-right: 1px solid #3f4247;
+        border-bottom: 1px solid #3f4247;
+        font-size: 13px;
+    }
+}
+
+/* warp speed ahead */
+.animClass {
+	-webkit-transform: translate3d(0, 0, 0);
+	/* more specific animation properties here */
 }
 
 .fixedProfile {

@@ -3,11 +3,9 @@
         <!--First Slide-->
         <div class="swiper-slide darkGrey">
             <div class="fixedProfile hidden">
-                <div class="fixedProfileImage">
-
+                <div class="fixedProfileImage profileImage">
                 </div>
-                <div class="fixedFullName">
-
+                <div class="fixedFullName fullname">
                 </div>
             </div>
             <div class="swiper-container-profile">
@@ -18,8 +16,8 @@
                             <div class="profileImage">
                             </div>
                             <div class="profileInfo">
-                                <div id="fullName"></div>
-                                <div id="fillUsername"></div>
+                                <div id="fullName" class="fullname"></div>
+                                <div id="fillUsername" class="username"></div>
                             </div>
                             <div class="profileNav">
                                 <ul>
@@ -27,9 +25,9 @@
                                         <div class="icon"><img src="img/friendsIcon.png" height="40" alt=""/></div> <div class="navText">Friends</div>
                                     </li>
                                     <li id="navToSettings">
-                                        <div class="icon"><img src="img/settingsIcon.png" width="40" alt=""/></div> <div class="navText">Settings</div>
+                                        <div class="icon"><img src="img/settingsIcon.png" width="40" alt=""/></div> <div class="navText">User settings</div>
                                     </li>
-                                    <li onclick="user.logout();">
+                                    <li id="logout">
                                         <div class="icon"><img src="img/shutdownIcon.png" width="40" alt=""/></div> <div class="navText">Logout</div>
                                     </li>
                                 </ul>
@@ -40,18 +38,48 @@
                         <h2>Friends</h2>
                     </div>
                     <div class="swiper-slide friendPadding">
-                        <h2>Settings</h2>
+                        <h2>User settings</h2>
+                        <br/><br/><br/>
+                        <div id="settings">
+                            <div id="changeProfileImage">
+                                <button class="altGrey toggle" style="margin-bottom: 0;">
+                                    Change profile image
+                                </button>
+                                <div class="showChanger animClass altGrey" style="display: none;">
+                                    <div class="center">
+                                        <div class="profileImage">
+                                    </div>
+                                    </div>
+                                    <button class="pink">Capture new</button>
+                                    <button class="blue">Choose from gallery</button>
+                                    <button class="green" style="display: none;">Save</button>
+                                </div>
+                            </div>
+                            <div id="changeName">
+                                <button class="altGrey toggle" style="margin-bottom: 0;">
+                                    Change display name
+                                </button>
+                                <div class="showChanger animClass altGrey" style="display: none;">
+                                    <div class="inputHolder first">
+                                        <div class="label">
+                                            Firstname
+                                        </div>
+                                        <input type="text" class="firstname"/>
+                                    </div>
+                                    <div class="inputHolder last">
+                                        <div class="label">
+                                            Lastname
+                                        </div>
+                                        <input type="text" class="lastname"/>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <button class="green">Update</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- Live fill information from UserOB -->
-            <script>
-                $(".profileImage").attr("style", "background-image: url('"+user.profileImage+"'); background-repeat: no-repeat; background-position: center center; background-size: cover;");
-                $(".fixedProfileImage").attr("style", "background-image: url('"+user.profileImage+"'); background-repeat: no-repeat; background-position: center center; background-size: cover;");
-                $("#fullName").html(user.firstname + " " + user.lastname);
-                $(".fixedFullName").html(user.firstname + " " +user.lastname);
-                $("#fillUsername").html(user.username);
-            </script>
         </div>
 
         <!--Second Slide-->
@@ -93,14 +121,8 @@
             </div>
         </div>
     </div>
-    <script>
-        $("#id").html(user.id);
-        $("#username").html(user.username);
-        $("#password").html(user.password);
-        $("#image").attr("src",user.profileImage);
-        $("#firstname").html(user.firstname);
-        $("#lastname").html(user.lastname);
-        $("#eggCount").html(user.eggCount);
-        mySwiper.reInit()
-    </script>
 </div>
+
+<script>
+    user.refreshUser();
+</script>
