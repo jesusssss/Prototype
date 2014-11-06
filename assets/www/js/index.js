@@ -25,8 +25,24 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
       noSwiping: true,
       initialSlide: 1,
       onSlideChangeStart: function(){
-                /* TODO: Fix pile der kommer frem til navigation */
-          }
+        var index = mySwiper.activeIndex;
+        if(index == 2) {
+            user.getFriendList();
+        }
+      }
+    });
+
+    eggSwiper = $(".swiper-layegg").swiper({
+        mode: 'vertical',
+        onlyExternal: true,
+        resistance: '100%',
+        noSwiping: true,
+        onSlideChangeStart: function() {
+            var index = eggSwiper.activeIndex;
+            if(index == 1) {
+                user.getFriendList();
+            }
+        }
     });
 
     loginSwiper = $('.login-container').swiper({
@@ -36,10 +52,10 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
           noSwiping: true
         });
 
-        $("#signup").on("touchstart", function() {
+        $("#signup").on("touchend", function() {
             loginSwiper.swipeTo(1);
         });
-        $("#forgotPassword").on("touchstart", function() {
+        $("#forgotPassword").on("touchend", function() {
             loginSwiper.swipeTo(2);
         });
 
@@ -61,7 +77,7 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
             }
         });
 
-      $(".profileNav ul li").on("touchstart", function() {
+      $(".profileNav ul li").on("touchend", function() {
           $(".profileNav ul li").removeClass("active");
           $(this).addClass("active");
       });
@@ -138,5 +154,13 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
         } else {
             toast("No empty fields, please");
         }
+    });
+
+    $(".absoluteLayEgg").on("touchend", function() {
+        eggSwiper.swipeTo(1);
+    });
+
+    $(".absoluteBottom .blue").on("touchend", function() {
+        eggSwiper.swipeTo(0);
     });
 }

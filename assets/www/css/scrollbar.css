@@ -1,0 +1,14 @@
+.swiper-scrollbar {
+	 background:none;
+      position:absolute;
+      right:3px;
+      top:0;
+      height:100%;
+      width:5px;
+}
+.swiper-scrollbar .swiper-scrollbar-drag {
+  background:rgba(255,255,255,0.3);
+}
+.swiper-scrollbar-cursor-drag {
+	cursor: move;
+}

@@ -36,6 +36,7 @@
                     </div>
                     <div class="swiper-slide friendPadding">
                         <h2>Friends</h2>
+                        <div id="newFriend"></div>
                     </div>
                     <div class="swiper-slide friendPadding">
                         <h2>User settings</h2>
@@ -84,40 +85,58 @@
 
         <!--Second Slide-->
         <div class="swiper-slide">
-            <div class="absoluteTop">
-                <div class="center">
-                    <h1>EasterEgg</h1>
+            <div class="swiper-layegg">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="absoluteTop">
+                            <div class="center">
+                                <h1>EasterEgg</h1>
+                            </div>
+                        </div>
+                        <div class="absoluteTopLeft">
+                            Yes
+                        </div>
+                        <div class="absoluteTopRight">
+                            No
+                        </div>
+                        <div class="absoluteLayEgg absoluteBottom">
+                            <button class="pink">
+                                <img src="img/egg.png" height="50px" alt=""/>
+                            </button>
+                        </div>
+                        <div id="overlay"></div>
+                        <div id="map"></div>
+                    </div>
+                    <div class="swiper-slide pink">
+                        <h2>Select friends</h2>
+                        <div class="friendList">
+                            <ul>
+
+                            </ul>
+                        </div>
+                        <div class="absoluteBottom">
+                            <button class="blue">Go back</button>
+                            <button class="green">Lay egg</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="absoluteTopLeft">
-                Yes
-            </div>
-            <div class="absoluteTopRight">
-                No
-            </div>
-            <div id="overlay"></div>
-            <div id="map"></div>
         </div>
 
         <!--Third Slide-->
-        <div class="swiper-slide">
-            <button onclick="capturePhoto()">Toast</button>
-            <img class="smallImage" src="" alt=""/>
-            <div id="showEgg">
-                <img src="" alt="" width="100%" height="100%"/>
+        <div class="swiper-slide blue" style="overflow-y: scroll;">
+            <div id="friends">
+                <h2>Friends</h2>
             </div>
-            <h2>User info:</h2>
-            <div id="id"></div>
-            <div id="username"></div>
-            <div id="password"></div>
-            <div>
-                <img id="image" src="" width="50" height="50" alt=""/>
+            <div class="friendList">
+                <ul>
+
+                </ul>
             </div>
-            <div>
-                <button onclick="maps.alertEggs();">Show eggs</button>
-            </div>
-            <div>
-                <button onclick="user.logout();">Logout</button>
+            <div class="absoluteBottom">
+                <button class="pink">
+                    Add friend
+                </button>
             </div>
         </div>
     </div>

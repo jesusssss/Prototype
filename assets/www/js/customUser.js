@@ -7,6 +7,8 @@ var userOb = function() {
     this.lastname;
     this.eggCount;
     this.isset = false;
+    this.friendsListed = false;
+    this.friendIds = [];
     var that = this;
 
     this.init = function(id, username, password, profileImage, firstname, lastname, eggCount) {
@@ -107,7 +109,7 @@ var userOb = function() {
     this.newProfileImage = function(imageData) {
         $.ajax({ url: ajaxLocation+"updateProfileImage.php",
              data: {
-                id: this.id,
+                id: that.id,
                 image: imageData
                 },
              type: 'post',
@@ -118,24 +120,24 @@ var userOb = function() {
         });
 
         var newSettings = {
-            "id": this.id,
-            "username": this.username,
-            "password": this.password,
+            "id": that.id,
+            "username": that.username,
+            "password": that.password,
             "profileImage": "data:image/jpeg;base64,"+imageData,
-            "firstname": this.firstname,
-            "lastname": this.lastname,
-            "eggCount": this.eggCount
+            "firstname": that.firstname,
+            "lastname": that.lastname,
+            "eggCount": that.eggCount
         };
         localStorage.setItem("user", JSON.stringify(newSettings));
-        this.load();
-        this.refreshUser();
+        that.load();
+        that.refreshUser();
         toast("Profile image has been saved");
     }
 
     this.newFullName = function(firstname, lastname) {
         $.ajax({ url: ajaxLocation+"updateFullName.php",
              data: {
-                id: this.id,
+                id: that.id,
                 firstname: firstname,
                 lastname: lastname
                 },
@@ -146,17 +148,17 @@ var userOb = function() {
               }
         });
         var newSettings = {
-            "id": this.id,
-            "username": this.username,
-            "password": this.password,
-            "profileImage": this.profileImage,
+            "id": that.id,
+            "username": that.username,
+            "password": that.password,
+            "profileImage": that.profileImage,
             "firstname": firstname,
             "lastname": lastname,
-            "eggCount": this.eggCount
+            "eggCount": that.eggCount
         };
         localStorage.setItem("user", JSON.stringify(newSettings));
-        this.load();
-        this.refreshUser();
+        that.load();
+        that.refreshUser();
         toast("Your name has now changed");
     }
 
@@ -172,7 +174,61 @@ var userOb = function() {
     }
 
     this.logout = function() {
-        localStorage.clear();
-        location.reload();
+        navigator.notification.confirm(
+                ("Do you want to Exit?"), // message
+                this.confirmLogout, // callback
+                'EasterEgg', // title
+                'YES,NO' // buttonName
+        );    }
+
+    this.confirmLogout = function(button) {
+        if(button == 1) {
+            localStorage.clear();
+            location.reload();
+        }
+    }
+
+    this.getFriendList = function() {
+        if(this.friendsListed === false) {
+            $.ajax({ url: ajaxLocation+"getFriendsList.php",
+                 data: {
+                    id: that.id
+                    },
+                 type: 'post',
+                 success:
+                 function(friendsId) {
+                    var friendsId = $.parseJSON(friendsId);
+                    that.friendIds = friendsId;
+                    that.drawFriends(that.friendIds);
+                    that.friendsListed = true;
+                 }
+            });
+        }
+    }
+
+    this.drawFriends = function(friends) {
+        $(".friendList ul").html("");
+        $.each(friends, function(index, id) {
+            $.ajax({ url: ajaxLocation+"getUserInfo.php",
+                 data: {
+                    id: id,
+                    hidden: 'xmp3f89e'
+                    },
+                 type: 'post',
+                 success:
+                 function(friendData) {
+                      var friendData = $.parseJSON(friendData);
+                      $(".friendList ul").append(
+                        "<li data-id='"+friendData.id+"'>"
+                        +"<div class='friendImage' style='background-image: url(data:image/jpeg;base64,"+friendData.profileImage+");'>"
+                        +"</div>"
+                        +"<div class='friendName'>"
+                        +friendData.firstname+" "+friendData.lastname
+                        +"</div>"
+                        +"</li>"
+                      );
+                 }
+            });
+        });
     }
 }

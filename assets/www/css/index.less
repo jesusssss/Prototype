@@ -13,6 +13,16 @@
     box-sizing: border-box;
 }
 
+.clear() {
+    width: 0;
+    height: 0;
+    visibility:hidden;
+    font-size: 0;
+    display: block;
+    clear: both;
+    content: "";
+}
+
 .radius(@radius: 10px) {
   -webkit-border-radius: @radius;
   -moz-border-radius: @radius;
@@ -272,6 +282,46 @@ img[src="http://maps.gstatic.com/mapfiles/api-3/images/google_white2.png"], a[hr
     display: inline-block;
 }
 
+#friends {
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.friendList {
+    ul {
+        list-style: none;
+        padding: 0;
+        li {
+            padding: 5px 20px;
+            border-bottom: 1px solid #fff;
+            .friendImage {
+                width: 50px;
+                height: 50px;
+                overflow: hidden;
+                border-radius: 50%;
+                box-sizing: border-box;
+                background-position: center center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                float:left;
+            }
+            .friendName {
+                font-size: 15px;
+                color: #fff;
+                float:left;
+                margin-top: 13px;
+                margin-left: 15px;
+            }
+            &:nth-of-type(2n) {
+                background: rgba(255,255,255,0.1);
+            }
+            &:after {
+                .clear();
+            }
+        }
+    }
+}
+
 .loginForm {
     background: #fff;
     border-radius: 10px;
@@ -481,6 +531,29 @@ img[src*="mapsIcon"] {
 .animClass {
 	-webkit-transform: translate3d(0, 0, 0);
 	/* more specific animation properties here */
+}
+
+.absoluteLayEgg {
+    z-index: 1600;
+    text-align: center;
+    .radius(5px);
+}
+
+.absoluteBottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    button {
+        width: 100%;
+        box-sizing: border-box;
+        font-family: 'Lobster', Arial, sans-serif;
+        font-size: 17px;
+        color: #fff;
+        text-align: center;
+        border: none;
+        padding: 25px 0px;
+        margin: 0;
+    }
 }
 
 .fixedProfile {
