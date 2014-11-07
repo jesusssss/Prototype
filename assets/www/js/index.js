@@ -26,6 +26,13 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
       initialSlide: 1,
       onSlideChangeStart: function(){
         var index = mySwiper.activeIndex;
+        if(index == 1) {
+            /* If map slide active, initiate */
+            maps.init();
+        } else {
+            /* Else pause tracking for battery and memory */
+            maps.pause();
+        }
         if(index == 2) {
             user.getFriendList();
         }
@@ -157,10 +164,35 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
     });
 
     $(".absoluteLayEgg").on("touchend", function() {
-        eggSwiper.swipeTo(1);
+        maps.pause();
+        maps.saveCurrentPosition();
+        camera.captureEgg();
     });
 
-    $(".absoluteBottom .blue").on("touchend", function() {
+    $(".absoluteBottom .backEgg").on("touchend", function() {
         eggSwiper.swipeTo(0);
+    });
+
+    $("#start").on("touchend", function() {
+        maps.init();
+    });
+
+    $("#stop").on("touchend", function() {
+        maps.pause();
+    });
+
+    $(document).on("touchend", ".currentBackground .singleFriend", function(event) {
+        if($(this).hasClass("active")) {
+            $(this).attr("style", "");
+            $(this).removeClass("active");
+            maps.removeReciever($(this).attr("data-id"));
+        } else {
+            maps.addReciever($(this).attr("data-id"));
+            $(this).attr("style","background: #f56f6c; opacity: 0.8;").addClass("active");
+        }
+    });
+
+    $(".doLayEgg").on("touchend", function() {
+        maps.doLayEgg();
     });
 }

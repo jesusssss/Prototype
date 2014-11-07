@@ -219,7 +219,7 @@ var userOb = function() {
                  function(friendData) {
                       var friendData = $.parseJSON(friendData);
                       $(".friendList ul").append(
-                        "<li data-id='"+friendData.id+"'>"
+                        "<li class='singleFriend' data-id='"+friendData.id+"'>"
                         +"<div class='friendImage' style='background-image: url(data:image/jpeg;base64,"+friendData.profileImage+");'>"
                         +"</div>"
                         +"<div class='friendName'>"

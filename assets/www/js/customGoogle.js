@@ -17,6 +17,11 @@ var mapsOb = function() {
     this.bounds = {};
     this.markers = [];
     this.circles = [];
+    this.lat;
+    this.lng;
+    this.recievers = [];
+    this.savedLat;
+    this.savedLng;
     var that = this;
 
     this.init = function() {
@@ -29,7 +34,14 @@ var mapsOb = function() {
         this.watchID = navigator.geolocation.watchPosition(this.success, this.error, options);
     }
 
+    this.pause = function() {
+        toast("Pasued");
+        navigator.geolocation.clearWatch(that.watchID);
+    }
+
     this.success = function(position) {
+        that.lat = position.coords.latitude;
+        that.lng = position.coords.longitude;
         var googleLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
         if(that.mapDrawn === false) {
@@ -104,6 +116,11 @@ var mapsOb = function() {
                 that.showGift(item.id);
             }
         });
+    }
+
+    this.saveCurrentPosition = function() {
+        that.savedLat = that.lat;
+        that.savedLng = that.lng;
     }
 
     this.showGift = function(id) {
@@ -207,6 +224,39 @@ var mapsOb = function() {
         eggCircle.bindTo('center', markEgg, 'position');
 
         that.bounds[eggId] = eggCircle.getBounds();
+    }
+
+    this.addReciever = function(id) {
+        that.recievers.push(id);
+        toast(that.recievers);
+    }
+
+    this.removeReciever = function(id) {
+        that.recievers.splice($.inArray(id, that.recievers),1);
+        toast(that.recievers);
+    }
+
+    this.doLayEgg = function() {
+        $.ajax({ url: ajaxLocation+"createEgg.php",
+             data: {
+                userId: user.id,
+                friendsIds: that.recievers,
+                gift: camera.currentEgg,
+                lat: that.savedLat,
+                lng: that.savedLng,
+                radius: that.radius
+                },
+             type: 'post',
+             success:
+             function(result) {
+                  that.recievers = [];
+                  camera.currentEgg = "";
+                  that.savedLat = "";
+                  that.savedLng = "";
+                  eggSwiper.swipeTo(0);
+                  maps.init();
+              }
+        });
     }
 
 }

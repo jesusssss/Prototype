@@ -28,17 +28,34 @@ var cameraOb = function(DestinationType, PictureSourceType, MediaType) {
     this.pictureSourceType = PictureSourceType;
     this.mediaType = MediaType;
     this.profileImage;
+    this.cameraOptions = {
+        quality: 100,
+        destinationType: this.destinationType.DATA_URL,
+        correctOrientation: true,
+        targetWidth: 500,
+        targetHeight: 500,
+        saveToPhotoAlbum: false
+    }
+    this.currentEgg;
     var that = this;
 
     this.captureProfile = function() {
-        navigator.camera.getPicture(that.profileSuccess, that.profileFail, {
-            quality: 100,
-            destinationType: this.destinationType.DATA_URL,
-            correctOrientation: true,
-            targetWidth: 500,
-            targetHeight: 500,
-            saveToPhotoAlbum: false
-        });
+        navigator.camera.getPicture(that.profileSuccess, that.profileFail, that.cameraOptions);
+    }
+
+    this.captureEgg = function() {
+        navigator.camera.getPicture(that.eggSuccess, that.eggFail, that.cameraOptions);
+    }
+
+    this.eggSuccess = function(imageData) {
+        eggSwiper.swipeTo(1);
+        that.currentEgg = imageData;
+        $(".currentBackground").css("background-image", "url('data:image/jpeg;base64," + imageData + "')");
+    }
+
+    this.eggFail = function() {
+        toast("Error - please try again");
+        maps.init();
     }
 
     this.galleryProfile = function() {
@@ -59,7 +76,7 @@ var cameraOb = function(DestinationType, PictureSourceType, MediaType) {
         if($("#changeProfileImage .green").is(":hidden")) {
             setTimeout(function() {
                 $("#changeProfileImage .green").slideToggle();
-            }, 2000);
+            }, 1000);
         }
     }
 
