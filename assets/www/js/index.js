@@ -23,20 +23,28 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
       loop: false,
       resistance: '100%',
       noSwiping: true,
-      initialSlide: 1,
       onSlideChangeStart: function(){
         var index = mySwiper.activeIndex;
-        if(index == 1) {
+        if(index == 0) {
             /* If map slide active, initiate */
             maps.init();
         } else {
             /* Else pause tracking for battery and memory */
             maps.pause();
         }
-        if(index == 2) {
+        if(index == 1) {
             user.getFriendList();
         }
       }
+    });
+
+    menuSwiper = $(".menu-swiper").swiper({
+        mode: 'vertical',
+        loop: false,
+        resistance: '100%',
+        noSwiping: true,
+        onSlideChangeStart: function() {
+        }
     });
 
     eggSwiper = $(".swiper-layegg").swiper({
@@ -57,7 +65,7 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
           loop: false,
           resistance: '100%',
           noSwiping: true
-        });
+    });
 
         $("#signup").on("touchend", function() {
             loginSwiper.swipeTo(1);
@@ -98,7 +106,39 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
         e.preventDefault();
     });
 
+    var animSpeed = 500;
+    var menuWrapperWidth = $(".menuWrapper").width();
+
+    $('input[type="range"]').rangeslider({
+    });
+
+    $("input[type='range']").on("change", function() {
+        $("#radiusValue").html($(this).val()+"m");
+        maps.setRadius($(this).val());
+    });
+
+    $("input[type='range']").on("touchend", function() {
+        maps.radiusAfter();
+    });
+
+    $(".swiper-slide").on("touchstart", function() {
+        if($(".menuWrapper").hasClass("visible")) {
+            $(".menuWrapper").animate({left: '-'+menuWrapperWidth+'px'}, animSpeed);
+            $(".menuWrapper").removeClass("visible");
+        }
+    });
+
 /****************************************************/
+
+    $("#menuIcon").on("touchend", function() {
+        if($(".menuWrapper").hasClass("visible")) {
+            $(".menuWrapper").animate({left: '-'+menuWrapperWidth+'px'}, animSpeed);
+            $(".menuWrapper").removeClass("visible");
+        } else {
+            $(".menuWrapper").animate({left: '0'}, animSpeed);
+            $(".menuWrapper").addClass("visible");
+        }
+    });
 
     /* Click events as touch events */
 

@@ -56,8 +56,6 @@ var mapsOb = function() {
               div.style.width = this.tileSize.width + 'px';
               div.style.height = this.tileSize.height + 'px';
               div.style.fontSize = '10';
-              div.style.backgroundColor = '#205f69';
-              div.style.opacity = 0.7;
               return div;
             };
 
@@ -86,7 +84,7 @@ var mapsOb = function() {
             that.circle = new google.maps.Circle({
                 map: that.map,
                 radius: that.radius,
-                fillColor: that.fillColor,
+                fillColor: '#354257',
                 strokeOpacity: 0
             });
             that.circle.bindTo('center', that.me, 'position');
@@ -116,6 +114,20 @@ var mapsOb = function() {
                 that.showGift(item.id);
             }
         });
+    }
+
+    this.setRadius = function(radius) {
+        var radius = parseInt(radius);
+        that.radius = radius;
+        that.circle.setRadius(radius);
+    }
+
+    this.radiusAfter = function() {
+        that.circle.setVisible(false);
+
+        setTimeout(function() {
+        that.circle.setVisible(true);
+        }, 500);
     }
 
     this.saveCurrentPosition = function() {

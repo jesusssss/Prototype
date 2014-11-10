@@ -1,151 +1,154 @@
-<div class="swiper-container">
-    <div class="swiper-wrapper">
-        <!--First Slide-->
-        <div class="swiper-slide darkGrey">
-            <div class="fixedProfile hidden">
-                <div class="fixedProfileImage profileImage">
-                </div>
-                <div class="fixedFullName fullname">
-                </div>
+<div id="wrapper">
+    <div id="menuWrapper">
+        <div class="fixedProfile hidden">
+            <div class="fixedProfileImage profileImage">
             </div>
-            <div class="swiper-container-profile">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div id="profileMenu">
-                            <!-- Profile image -->
-                            <div class="profileImage">
-                            </div>
-                            <div class="profileInfo">
-                                <div id="fullName" class="fullname"></div>
-                                <div id="fillUsername" class="username"></div>
-                            </div>
-                            <div class="profileNav">
-                                <ul>
-                                    <li id="navToFiends">
-                                        <div class="icon"><img src="img/friendsIcon.png" height="40" alt=""/></div> <div class="navText">Friends</div>
-                                    </li>
-                                    <li id="navToSettings">
-                                        <div class="icon"><img src="img/settingsIcon.png" width="40" alt=""/></div> <div class="navText">User settings</div>
-                                    </li>
-                                    <li id="logout">
-                                        <div class="icon"><img src="img/shutdownIcon.png" width="40" alt=""/></div> <div class="navText">Logout</div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide friendPadding">
-                        <h2>Friends</h2>
-                        <div id="newFriend"></div>
-                    </div>
-                    <div class="swiper-slide friendPadding">
-                        <h2>User settings</h2>
-                        <br/><br/><br/>
-                        <div id="settings">
-                            <div id="changeProfileImage">
-                                <button class="altGrey toggle" style="margin-bottom: 0;">
-                                    Change profile image
-                                </button>
-                                <div class="showChanger animClass altGrey" style="display: none;">
-                                    <div class="center">
-                                        <div class="profileImage">
-                                    </div>
-                                    </div>
-                                    <button class="pink">Capture new</button>
-                                    <button class="blue">Choose from gallery</button>
-                                    <button class="green" style="display: none;">Save</button>
-                                </div>
-                            </div>
-                            <div id="changeName">
-                                <button class="altGrey toggle" style="margin-bottom: 0;">
-                                    Change display name
-                                </button>
-                                <div class="showChanger animClass altGrey" style="display: none;">
-                                    <div class="inputHolder first">
-                                        <div class="label">
-                                            Firstname
-                                        </div>
-                                        <input type="text" class="firstname"/>
-                                    </div>
-                                    <div class="inputHolder last">
-                                        <div class="label">
-                                            Lastname
-                                        </div>
-                                        <input type="text" class="lastname"/>
-                                        <div class="clear"></div>
-                                    </div>
-                                    <button class="green">Update</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="fixedFullName fullname">
             </div>
         </div>
-
-        <!--Second Slide-->
-        <div class="swiper-slide">
-            <div class="swiper-layegg">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="absoluteTop">
-                            <div class="center">
-                                <h1>EasterEgg</h1>
-                            </div>
+        <div class="swiper-container-profile">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div id="profileMenu">
+                        <!-- Profile image -->
+                        <div class="profileImage">
                         </div>
-                        <div class="absoluteTopLeft">
-                            <div id="start">
-                                start
-                            </div>
+                        <div class="profileInfo">
+                            <div id="fullName" class="fullname"></div>
+                            <div id="fillUsername" class="username"></div>
                         </div>
-                        <div class="absoluteTopRight">
-                            <div id="stop">
-                                stop
-                            </div>
+                        <div class="profileNav">
+                            <ul>
+                                <li id="navToFiends">
+                                    <div class="icon"><img src="img/friendsIcon.png" height="40" alt=""/></div> <div class="navText">Friends</div>
+                                </li>
+                                <li id="navToSettings">
+                                    <div class="icon"><img src="img/settingsIcon.png" width="40" alt=""/></div> <div class="navText">User settings</div>
+                                </li>
+                                <li id="logout">
+                                    <div class="icon"><img src="img/shutdownIcon.png" width="40" alt=""/></div> <div class="navText">Logout</div>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="absoluteLayEgg absoluteBottom">
-                            <button class="pink">
-                                <img src="img/egg.png" height="50px" alt=""/>
+                    </div>
+                </div>
+                <div class="swiper-slide friendPadding">
+                    <h2>Friends</h2>
+                    <div id="newFriend"></div>
+                </div>
+                <div class="swiper-slide friendPadding">
+                    <h2>User settings</h2>
+                    <br/><br/><br/>
+                    <div id="settings">
+                        <div id="changeProfileImage">
+                            <button class="altGrey toggle" style="margin-bottom: 0;">
+                                Change profile image
                             </button>
+                            <div class="showChanger animClass altGrey" style="display: none;">
+                                <div class="center">
+                                    <div class="profileImage">
+                                    </div>
+                                </div>
+                                <button class="pink">Capture new</button>
+                                <button class="blue">Choose from gallery</button>
+                                <button class="green" style="display: none;">Save</button>
+                            </div>
                         </div>
-                        <div id="overlay"></div>
-                        <div id="map"></div>
-                    </div>
-                    <div class="swiper-slide blue  currentBackground">
-                        <div id="colorOverlay"></div>
-                        <div class="onTop">
-                            <div class="sidePadding">
-                                <h2>Select friends</h2>
-                            </div>
-                            <div class="friendList">
-                                <ul>
-
-                                </ul>
-                            </div>
-                            <div class="absoluteBottom">
-                                <button class="green doLayEgg" style="opacity: 0.8;">Lay egg</button>
-                                <button class="pink backEgg" style="opacity: 0.8;">Go back</button>
+                        <div id="changeName">
+                            <button class="altGrey toggle" style="margin-bottom: 0;">
+                                Change display name
+                            </button>
+                            <div class="showChanger animClass altGrey" style="display: none;">
+                                <div class="inputHolder first">
+                                    <div class="label">
+                                        Firstname
+                                    </div>
+                                    <input type="text" class="firstname"/>
+                                </div>
+                                <div class="inputHolder last">
+                                    <div class="label">
+                                        Lastname
+                                    </div>
+                                    <input type="text" class="lastname"/>
+                                    <div class="clear"></div>
+                                </div>
+                                <button class="green">Update</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!--Third Slide-->
-        <div class="swiper-slide blue" style="overflow-y: scroll;">
-            <div id="friends">
-                <h2>Friends</h2>
-            </div>
-            <div class="friendList">
-                <ul>
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <!--First Slide-->
 
-                </ul>
+            <!--Second Slide-->
+            <div class="swiper-slide">
+                <div class="swiper-layegg">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="absoluteTop">
+                                <div class="center">
+                                    <h1>EasterEgg</h1>
+                                </div>
+                            </div>
+                            <div class="absoluteTopLeft">
+                                <div id="start">
+                                    start
+                                </div>
+                            </div>
+                            <div class="absoluteTopRight">
+                                <div id="stop">
+                                    stop
+                                </div>
+                            </div>
+                            <div class="absoluteLayEgg absoluteBottom">
+                                <button class="pink">
+                                    <img src="img/egg.png" height="50px" alt=""/>
+                                </button>
+                            </div>
+                            <div id="overlay"></div>
+                            <div id="map"></div>
+                        </div>
+                        <div class="swiper-slide blue  currentBackground">
+                            <div id="colorOverlay"></div>
+                            <div class="onTop">
+                                <div class="sidePadding">
+                                    <h2>Select friends</h2>
+                                </div>
+                                <div class="friendList">
+                                    <ul>
+
+                                    </ul>
+                                </div>
+                                <div class="absoluteBottom">
+                                    <button class="green doLayEgg" style="opacity: 0.8;">Lay egg</button>
+                                    <button class="pink backEgg" style="opacity: 0.8;">Go back</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="absoluteBottom">
-                <button class="pink">
-                    Add friend
-                </button>
+
+            <!--Third Slide-->
+            <div class="swiper-slide blue" style="overflow-y: scroll;">
+                <div id="friends">
+                    <h2>Friends</h2>
+                </div>
+                <div class="friendList">
+                    <ul>
+
+                    </ul>
+                </div>
+                <div class="absoluteBottom">
+                    <button class="pink">
+                        Add friend
+                    </button>
+                </div>
             </div>
         </div>
     </div>

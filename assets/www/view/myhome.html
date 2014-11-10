@@ -1,0 +1,153 @@
+<div class="wrapper blue">
+    <div class="menuWrapper blue">
+        <div class="menu-swiper">
+            <div id="menu-top">
+                <div class="profileImage">
+
+                </div>
+                <div class="fullname"></div>
+            </div>
+            <div class="swiper-wrapper">
+                <div class="swiper-slider">
+                    <!-- First menu : list of options -->
+                    <div class="menuBreak">
+                        You
+                    </div>
+                    <div id="menuOptions">
+                        <ul>
+                            <li class="gotoUserInformation">
+                                <div class="icon"><img src="img/userIcon.png" alt=""/></div>
+                                <div class="label">User information</div>
+                            </li>
+                            <li class="gotoFriendInvites">
+                                <div class="icon"><img src="img/friendsIcon.png" alt=""/></div>
+                                <div class="label">Friend invites</div>
+                                <div class="countInvites"></div>
+                            </li>
+                            <li class="gotoProfilePicture">
+                                <div class="icon"><img src="img/profilePictureIcon.png" alt=""/></div>
+                                <div class="label">Profile picture</div>
+                            </li>
+                            <li class="gotoSettings">
+                                <div class="icon"><img src="img/settingsIcon.png" alt=""/></div>
+                                <div class="label">Settings</div>
+                            </li>
+                            <li class="logout">
+                                <div class="icon"><img src="img/shutdownIcon.png" alt=""/></div>
+                                <div class="label">Log off</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="menuBreak">
+                        Friends
+                    </div>
+                    <div id="menuFriends">
+                        <div class="friendList">
+                            <ul>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="menuButtom lightGreen">
+                        + Add friend
+                    </div>
+                </div>
+                <div class="swiper-slider">
+                    <div class="menuBreak">
+                        <img src="img/userIcon.png" alt=""/>
+                        User information
+                    </div>
+                    <form action="">
+                        <div class="title">
+                            Firstname
+                        </div>
+                        <input type="text" id="firstname" class="firstname"/>
+                        <div class="title">
+                            Lastname
+                        </div>
+                        <input type="text" id="lastname" class="lastname"/>
+                        <input type="submit" id="editName" class="orange" value="Save"/>
+                    </form>
+                    <div class="menuBottom lightGreen menuBack">
+                        Go back
+                    </div>
+                </div>
+                <div class="swiper-slider">
+                    <div class="menuBreak">
+                        <img src="img/friendsIcon.png" alt=""/>
+                        Friend invites
+                    </div>
+                    <div class="friendInvites">
+                        List invites
+                    </div>
+                </div>
+                <div class="swiper-slider">
+                    <div class="menuBreak">
+                        <img src="img/profilePictureIcon.png" alt=""/>
+                        Profile picture
+                    </div>
+                    <div class="picturePreview profilePicture">
+
+                    </div>
+                    <form action="">
+                        <input type="button" class="green" id="capturePicture" value="Capture new"/>
+                        <input type="button" class="lightGreen" id="fromGallery" value="From gallery"/>
+                        <input type="button" class="orange" id="savePicture" value="Save"/>
+                    </form>
+                    <div class="menuButton lightGreen menuBack">
+                        Go back
+                    </div>
+                </div>
+                <div class="swiper-slider">
+                    <div class="menuBreak">
+                        <img src="img/settingsIcon.png" alt=""/>
+                        Settings
+                    </div>
+                    Insert settings configuration
+                    <div class="menuButtom lightGreen menuBack">
+                        Go back
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div id="mainTop" class="blue">
+                    <div id="mainTopWrapper">
+                        <div id="menuIcon">
+                            <img src="img/menuIcon.png" height="20" alt=""/>
+                        </div>
+                        <div class="center">
+                            <h1 style="margin: 5px 0px 8px;">EasterEgg</h1>
+                        </div>
+                        <div id="eggIcon">
+                            <img src="img/smallCrackedEgg.png" height="25" alt=""/>
+                        </div>
+                    </div>
+                </div>
+                <div id="overlay"></div>
+                <div id="map">
+
+                </div>
+                <div id="mainBottom" class="green">
+                    <div class="center">
+                        <div id="radiusValue">
+                            50m
+                        </div>
+                        <div id="radius">
+                            <input type="range" min="0" max="100" step="1" style="width: 100%;" value="50">
+                        </div>
+                        <div id="layEgg">
+                            <img src="img/bigEgg.png" height="55" alt=""/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                Friends list and lay egg
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,14 +3,93 @@
 }
 
 @pink: #f56f6c;
-@blue: #205f69;
+@blue: #354257;
 @grey: #7a7d86;
 @darkGrey: #252932;
 @altGrey: #1c2127;
-@green: #5eb73c;
+@green: #458c6b;
 
 .boxSizing {
     box-sizing: border-box;
+}
+
+.wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.menuWrapper {
+    width: 80%;
+    height: 100%;
+    position: absolute;
+    z-index: 9999;
+    left: -80%;
+    top: 0;
+}
+
+.eggWrapper {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    position: absolute;
+    right: -100%;
+}
+
+#mainTop {
+    width: 100%;
+    padding: 10px;
+    z-index: 1600;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    #mainTopWrapper{
+        width: 100%;
+        position: relative;
+    }
+    #menuIcon {
+        left: 10px;
+        top: 10px;
+        z-index: 9999999;
+        position: absolute;
+    }
+    #logo {
+        margin: 0 auto;
+    }
+    #eggIcon {
+        z-index: 1100;
+        right: 10px;
+        top: 10px;
+        position: absolute;
+    }
+}
+
+#mainBottom {
+    position: absolute;
+    z-index: 1600;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    bottom: 0;
+    #radiusValue {
+        .radius(5px);
+        display: inline-block;
+        padding: 5px 5px;
+        position: absolute;
+        width: 80px;
+        background: @green;
+        color: #fff;
+        font-family: 'Lobster', 'Open Sans', Arial, sans-serif;
+        font-size: 12px;
+        top: -40px;
+        left: 50%;
+        margin-left: -40px;
+        box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.3), 0px 0px 2px 2px rgba(255,255,255,0.5) inset;
+    }
+    #radius, #layEgg {
+        width: 100%;
+    }
 }
 
 .clear() {
@@ -73,7 +152,7 @@ h1, h2, h3, h4 {
 
 h1 {
     font-family: 'Lobster', Arial, sans-serif;
-    font-size: 30px;
+    font-size: 25px;
 }
 
 h2, h3, h4 {
@@ -120,6 +199,8 @@ body {
 
 .center {
     text-align: center;
+    position: relative;
+    z-index: 100;
     display: block;
 }
 
