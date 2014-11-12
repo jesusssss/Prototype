@@ -93,7 +93,7 @@ var userOb = function() {
                   var userSettings = {"id": result.id,
                                       "username": result.username,
                                       "password": result.password,
-                                      "profileImage": "data:image/jpeg;base64,"+userData.profileImage,
+                                      "profileImage": userData.profileImage,
                                       "firstname": userData.firstname,
                                       "lastname": userData.lastname,
                                       "eggCount": userData.eggCount
@@ -101,7 +101,10 @@ var userOb = function() {
                   localStorage.setItem("user", JSON.stringify(userSettings));
                   that.load();
                   toast("Login success");
-                  location.reload();
+                  $("#loginForm").hide();
+                  user.load();
+                  user.refreshUser();
+                  maps.init();
               }
         });
     }
@@ -123,7 +126,7 @@ var userOb = function() {
             "id": that.id,
             "username": that.username,
             "password": that.password,
-            "profileImage": "data:image/jpeg;base64,"+imageData,
+            "profileImage": imageData,
             "firstname": that.firstname,
             "lastname": that.lastname,
             "eggCount": that.eggCount
@@ -163,7 +166,7 @@ var userOb = function() {
     }
 
     this.refreshUser = function() {
-        $(".profileImage").attr("style", "background-image: url('"+user.profileImage+"'); background-repeat: no-repeat; background-position: center center; background-size: cover;");
+        $(".profileImage").attr("style", "background-image: url('data:image/jpeg;base64,"+user.profileImage+"'); background-repeat: no-repeat; background-position: center center; background-size: cover;");
         $(".fullname").html(user.firstname + " " + user.lastname);
         $("div.username").html(user.username);
         $("div.firstname").html(user.firstname);
@@ -171,6 +174,7 @@ var userOb = function() {
         $("input.firstname").val(user.firstname);
         $("input.lastname").val(user.lastname);
         $("input.username").val(user.username);
+        user.getFriendList();
     }
 
     this.logout = function() {
@@ -218,7 +222,7 @@ var userOb = function() {
                  success:
                  function(friendData) {
                       var friendData = $.parseJSON(friendData);
-                      $(".friendList").append(
+                      $(".friendList ul").append(
                         "<li class='singleFriend' data-id='"+friendData.id+"'>"
                         +"<div class='friendImage' style='background-image: url(data:image/jpeg;base64,"+friendData.profileImage+");'>"
                         +"</div>"

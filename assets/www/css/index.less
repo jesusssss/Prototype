@@ -1,13 +1,31 @@
 * {
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+    	transform: translate3d(0,0,0);
+}
+
+img {
+    max-width: 100%;
+}
+
+#loginForm {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    position: fixed;
+    z-index: 9999;
 }
 
 @pink: #f56f6c;
 @blue: #354257;
+@darkBlue: #252f40;
 @grey: #7a7d86;
 @darkGrey: #252932;
 @altGrey: #1c2127;
+@white: #e4ecf3;
 @green: #458c6b;
+@lightGreen: #91c46c;
+@orange: #d9a86c;
 
 .boxSizing {
     box-sizing: border-box;
@@ -44,6 +62,7 @@
     box-sizing: border-box;
     position: absolute;
     top: 0;
+    box-shadow: 0px 3px 4px rgba(0,0,0,0.3);
     #mainTopWrapper{
         width: 100%;
         position: relative;
@@ -85,12 +104,149 @@
         top: -40px;
         left: 50%;
         margin-left: -40px;
-        box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.3), 0px 0px 2px 2px rgba(255,255,255,0.5) inset;
+        box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.2), 0px 0px 2px 2px rgba(255,255,255,0.2) inset;
     }
     #radius, #layEgg {
         width: 100%;
     }
 }
+
+.menu-swiper {
+    box-sizing: border-box;
+    padding: 64px 0px;
+    box-shadow: 0px 2px 3px 3px rgba(0,0,0,0.3);
+}
+
+#menu-top {
+    z-index: 1700;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 7px 15px;
+    .profileImage {
+        width: 50px;
+        height: 50px;
+        float:left;
+        .radius(50%);
+    }
+    .fullname {
+        margin-top: 13px;
+        font-size: 15px;
+        float:left;
+        margin-left: 10px;
+        color: @white;
+        font-weight: 650;
+    }
+    #close {
+        width: 15px;
+        height: 15px;
+        float: right;
+        margin-top: 18px;
+        background-image: url("../img/removeIcon.png");
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+    &:after {
+        .clear();
+    }
+}
+
+#menuOptions {
+    box-sizing: border-box;
+    ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        li {
+            padding: 8px;
+            .icon {
+                width: 25px;
+                float:left;
+            }
+            .label {
+                margin-top: 2px;
+                margin-left: 10px;
+                color: @white;
+                font-size: 15px;
+                float:left;
+            }
+            &:after {
+                .clear();
+            }
+        }
+    }
+}
+
+.picturePreview {
+    width: 140px;
+    height: 140px;
+    margin: 20px auto 0;
+    .radius(50%);
+    box-shadow: 0px 0px 0px 5px rgba(255,255,255,0.1);
+}
+
+.form {
+    padding: 0px 10px;
+    box-sizing: border-box;
+    input[type='text'] {
+        width: 100%;
+        margin: 0 auto;
+        background: @white;
+        box-shadow: 0px 3px 2px -4px rgba(0,0,0,0.2) inset;
+        font-size: 15px;
+        padding: 10px 5px;
+        box-sizing: border-box;
+        color: #333;
+        border: none;
+    }
+    .title {
+        font-size: 15px;
+        color: @white;
+        margin-top: 10px;
+        margin-bottom: 2px;
+    }
+    button {
+        width: 100%;
+        margin: 0 auto;
+        border: none;
+        margin-top: 10px;
+        padding: 8px 0px;
+        text-align: center;
+        color: @white;
+        font-size: 15px;
+        font-family: 'Lobster', 'Open Sans', Arial, sans-serif;
+    }
+}
+
+.menuBottom {
+    position: absolute;
+    bottom: 64px;
+    width: 100%;
+    padding: 10px 0px;
+    text-align: center;
+    color: @white;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.menuBreak {
+    box-sizing: border-box;
+    padding: 13px 10px;
+    width: 100%;
+    font-size: 15px;
+    font-family: 'Lobster', Arial, sans-serif;
+    color: @white;
+    font-weight: 500;
+    img {
+        height: 20px;
+        vertical-align:middle;
+        margin-right: 4px;
+    }
+}
+
+
 
 .clear() {
     width: 0;
@@ -239,46 +395,12 @@ img[src="http://maps.gstatic.com/mapfiles/api-3/images/google_white2.png"], a[hr
      display:none !important;
 }
 
-.content {
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-/* Swipe taps */
-.tabs {
-    width: 100%;
-    background: #ccc;
-}
-
-.tabs a {
-    background: #ccc;
-    color: #000;
-    display: inline-block;
-    padding: 20px;
-    box-sizing: border-box;
-    width: 33.333333%;
-    position: relative;
-    text-align: center;
-    transition: all 0.3s;
-}
-
-.tabs a.active {
-    background: #f1f1f1;
-    color: #666;
-    transition: all 0.3s;
-}
-
-#showEgg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 100;
-    display: none;
-    box-shadow: 0px 0px 3px rgba(0,0,0,0.5) inset;
-}
-
 .blue {
     background: @blue;
+}
+
+.darkBlue {
+    background: @darkBlue;
 }
 
 .pink {
@@ -293,6 +415,10 @@ img[src="http://maps.gstatic.com/mapfiles/api-3/images/google_white2.png"], a[hr
     background: @darkGrey;
 }
 
+.orange {
+    background: @orange;
+}
+
 .green {
     background: @green;
 }
@@ -301,30 +427,8 @@ img[src="http://maps.gstatic.com/mapfiles/api-3/images/google_white2.png"], a[hr
     background: @altGrey;
 }
 
-.fixedTop, .absoluteTop, .absoluteTopLeft, .absoluteTopRight {
-    z-index: 3000;
-    top: 15px;
-    box-sizing: border-box;
-}
-
-.absoluteTopLeft {
-    left: 20px;
-    position: absolute;
-}
-
-.absoluteTopRight {
-    right: 20px;
-    position: absolute;
-}
-
-.fixedTop {
-    position: fixed;
-    width: 100%;
-}
-
-.absoluteTop {
-    width: 100%;
-    position: absolute;
+.lightGreen {
+    background: @lightGreen;
 }
 
 #overlay {
@@ -335,76 +439,71 @@ img[src="http://maps.gstatic.com/mapfiles/api-3/images/google_white2.png"], a[hr
     background: transparent;
 }
 
-.background {
-    box-sizing: border-box;
-    padding: 75px 20px 0px;
-    position: relative;
-}
-
-.bottomLogin {
+#preBottom {
     position: absolute;
-    bottom: 20px;
-    left: 0;
-    color: #fff;
-    font-size: 15px;
-    .boxSizing();
-    padding: 0px 15px;
+    bottom: 0;
     width: 100%;
-    text-decoration: underline;
+    button {
+        width: 50%;
+        float:left;
+        padding: 15px 0px;
+        font-size: 15px;
+        font-family: 'Lobster', 'Open sans', Arial, sans-serif;
+        color: @white;
+        text-align: center;
+        border: none;
+    }
+    &:after {
+        .clear();
+    }
 }
 
-.left {
-    float: left;
-    display: inline-block;
-}
-
-.right {
-    float: right;
-    display: inline-block;
-}
-
-#friends {
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.currentBackground {
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
+#preEggInfo {
+    height: 170px;
+    border: 1px solid #000;
+    width: 100%;
     position: relative;
-    z-index: 50;
-    #colorOverlay {
-        background: @blue;
-        opacity: 0.2;
-        width: 100%;
-        height: 100%;
+    #horzSplit {
+        width: 80px;
+        height: 40px;
+        top: -1px;
+        left: 50%;
+        margin-left: -39px;
         position: absolute;
-        z-index: 100;
+        z-index: 1600;
     }
-    .onTop {
-        position: relative;
-        z-index: 200;
-        width:100%;
+    #preLocation {
+        float:left;
+        width: 50%;
         height: 100%;
     }
-}
-
-.sidePadding {
-    padding: 0px 20px;
-    box-sizing: border-box;
+    #preImage {
+        float: right;
+        width: 50%;
+        height: 100%;
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+    &:after {
+        .clear();
+    }
 }
 
 .friendList {
+    height: 212px;
+    overflow-y: auto;
     ul {
         list-style: none;
         padding: 0;
+        margin: 0;
         li {
-            padding: 5px 20px;
-            border-bottom: 1px solid #fff;
+            padding: 5px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
             .friendImage {
-                width: 50px;
-                height: 50px;
+                margin-top: 5px;
+                width: 30px;
+                height: 30px;
                 overflow: hidden;
                 border-radius: 50%;
                 box-sizing: border-box;
@@ -417,11 +516,8 @@ img[src="http://maps.gstatic.com/mapfiles/api-3/images/google_white2.png"], a[hr
                 font-size: 15px;
                 color: #fff;
                 float:left;
-                margin-top: 13px;
+                margin-top: 8px;
                 margin-left: 15px;
-            }
-            &:nth-of-type(2n) {
-                background: rgba(255,255,255,0.1);
             }
             &:after {
                 .clear();
@@ -430,268 +526,9 @@ img[src="http://maps.gstatic.com/mapfiles/api-3/images/google_white2.png"], a[hr
     }
 }
 
-.loginForm {
-    background: #fff;
-    border-radius: 10px;
-    margin-top: 10px;
-    padding: 0;
-    .inputHolder {
-        padding: 10px;
-        font-size: 18px;
-        border-bottom: 1px solid #ccc;
-        .label {
-            float:left;
-            margin-right: 10px;
-        }
-        input[type='text'], input[type='password'] {
-            float: left;
-            color: #666;
-            height: 60px;
-            border: none;
-        }
-        &:last-of-type {
-            border-bottom: none;
-        }
-    }
-    input[type='submit'], .loginSubmit {
-        width: 100%;
-        box-sizing: border-box;
-        padding: 10px;
-        .bottomRadius(10px);
-        text-align: center;
-        color: #fff;
-        margin: 0;
-        border: none;
-    }
-}
-
 /* Marker */
 
 img[src*="mapsIcon"] {
     position: absolute !important;
     z-index: 999999 !important;
-}
-
-
-#profileMenu {
-    .profileImage {
-        width: 130px;
-        height: 130px;
-        margin: 0 auto;
-        overflow: hidden;
-        border-radius: 50%;
-        position: relative;
-        box-shadow: 0px 0px 0px 7px #2e323b;
-        box-sizing: border-box;
-        margin-top: 20px;
-    }
-    .profileInfo {
-        margin-top: 10px;
-        #fullName {
-            font-size: 18px;
-            color: #fff;
-            text-align: center;
-        }
-        #fillUsername {
-            text-align: center;
-            font-size: 16px;
-            color: @pink;
-            font-style: italic;
-        }
-    }
-    .profileNav {
-        ul {
-            list-style: none;
-            padding: 0;
-            li {
-                display: block;
-                width: 100%;
-                padding: 10px 15px;
-                box-sizing: border-box;
-                border-bottom: 1px solid #3f4247;
-                .icon {
-                    float:left;
-                }
-                .navText {
-                    float:left;
-                    margin-left: 25px;
-                    margin-top: 10px;
-                    color: #fff;
-                    font-size: 18px;
-                }
-                &:after {
-                    content: "";
-                    display: block;
-                    width: 0;
-                    height: 0;
-                    clear: both;
-                }
-            }
-            li.active {
-                background: #1c2127
-            }
-        }
-    }
-}
-
-#settings {
-    button {
-         .radius(5px);
-        width: 100%;
-        box-sizing: border-box;
-        font-family: 'Lobster', Arial, sans-serif;
-        font-size: 17px;
-        color: #fff;
-        text-align: center;
-        border: none;
-        padding: 15px 0px;
-        margin-bottom: 10px;
-    }
-}
-
-#changeProfileImage {
-    .center {
-        .profileImage {
-            width: 110px;
-            height: 110px;
-            margin: 0 auto;
-            overflow: hidden;
-            border-radius: 50%;
-            position: relative;
-            box-shadow: 0px 0px 0px 7px #2e323b;
-            box-sizing: border-box;
-            margin-top: 5px;
-            margin-bottom: 15px;
-        }
-    }
-    &:after {
-        content: "";
-        display: block;
-        width: 0;
-        height: 0;
-        clear: both;
-    }
-}
-
-#changeName {
-    margin-top: 25px;
-    .inputHolder {
-        width: 48%;
-        .label {
-            font-size: 14px;
-            color: #fff;
-        }
-        input {
-            text-align: center;
-            width: 100%;
-            padding: 3%;
-            box-sizing: border-box;
-            .radius(3px);
-            font-size: 13px;
-            border: none;
-        }
-        &:after {
-            content: "";
-            width: 0;
-            height: 0;
-            clear: both;
-            display: block;
-        }
-    }
-    .first {
-        float:left;
-    }
-    .last {
-        float: right;
-    }
-    &:after {
-        width: 0;
-        height: 0;
-        display: block;
-        content: "";
-        clear: both;
-    }
-}
-
-.showChanger {
-    padding: 10px;
-    -webkit-transform: translate3d(0, 0, 0);
-    box-sizing: border-box;
-}
-
-.friendPadding {
-    padding: 60px 20px 20px;
-    box-sizing: border-box;
-    h2 {
-        position: absolute;
-        top:45px;
-        left: 0;
-        background: #1c2127;
-        display: inline-block;
-        padding: 5px 10px;
-        border-right: 1px solid #3f4247;
-        border-bottom: 1px solid #3f4247;
-        font-size: 13px;
-    }
-}
-
-/* warp speed ahead */
-.animClass {
-	-webkit-transform: translate3d(0, 0, 0);
-	/* more specific animation properties here */
-}
-
-.absoluteLayEgg {
-    z-index: 1600;
-    text-align: center;
-    .radius(5px);
-}
-
-.absoluteBottom {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    button {
-        width: 100%;
-        box-sizing: border-box;
-        font-family: 'Lobster', Arial, sans-serif;
-        font-size: 17px;
-        color: #fff;
-        text-align: center;
-        border: none;
-        padding: 25px 0px;
-        margin: 0;
-    }
-}
-
-.fixedProfile {
-    position: absolute;
-    top: -80px;
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    z-index: 9999;
-    background: #1c2127;
-    border-bottom: 1px solid #3f4247;
-    .fixedProfileImage {
-        float: left;
-        width: 35px;
-        height: 35px;
-        .radius(50%);
-    }
-    .fixedFullName {
-        float:left;
-        margin-left: 20px;
-        font-size: 16px;
-        color: #fff;
-        margin-top: 8px;
-    }
-    &:after {
-        content: "";
-        clear: both;
-        display: block;
-        width: 0;
-        height: 0;
-        visibility: hidden;
-    }
 }

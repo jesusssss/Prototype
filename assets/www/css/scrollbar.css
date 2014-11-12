@@ -12,3 +12,7 @@
 .swiper-scrollbar-cursor-drag {
 	cursor: move;
 }
+* {
+	transform: translate3d(0,0,0);
+
+}

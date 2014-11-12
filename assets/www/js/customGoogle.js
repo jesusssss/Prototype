@@ -47,17 +47,17 @@ var mapsOb = function() {
         if(that.mapDrawn === false) {
             that.getEggs();
 
-            function CoordMapType(tileSize) {
-              this.tileSize = tileSize;
-            }
-
-            CoordMapType.prototype.getTile = function(coord, zoom, ownerDocument) {
-              var div = ownerDocument.createElement('div');
-              div.style.width = this.tileSize.width + 'px';
-              div.style.height = this.tileSize.height + 'px';
-              div.style.fontSize = '10';
-              return div;
-            };
+//            function CoordMapType(tileSize) {
+//              this.tileSize = tileSize;
+//            }
+//
+//            CoordMapType.prototype.getTile = function(coord, zoom, ownerDocument) {
+//              var div = ownerDocument.createElement('div');
+//              div.style.width = this.tileSize.width + 'px';
+//              div.style.height = this.tileSize.height + 'px';
+//              div.style.fontSize = '10';
+//              return div;
+//            };
 
             var mapOptions = {
                 zoom: that.zoom,
@@ -89,8 +89,8 @@ var mapsOb = function() {
             });
             that.circle.bindTo('center', that.me, 'position');
 
-            that.map.overlayMapTypes.insertAt(
-                  0, new CoordMapType(new google.maps.Size(256, 256)));
+//            that.map.overlayMapTypes.insertAt(
+//                  0, new CoordMapType(new google.maps.Size(256, 256)));
 //            google.maps.event.addListenerOnce(that.map, 'idle', function(){
 //                setTimeout(function() {
 //                    $("#blueOverlay").fadeIn("slow");
@@ -114,6 +114,30 @@ var mapsOb = function() {
                 that.showGift(item.id);
             }
         });
+    }
+
+
+    this.drawPreLocation = function() {
+        var preLocation = new google.maps.LatLng(that.lat, that.lng);
+        var preOptions = {
+                        zoom: 15,
+                        center: preLocation,
+                        mapTypeId: that.mapTypeId,
+                        draggable: false,
+                        scrollwheel: false,
+                        panControl: false,
+                        disableDefaultUI: that.disableDefaultUI
+                    }
+
+                    var preMap = new google.maps.Map(document.getElementById('preLocation'), preOptions);
+                    var preMe = new google.maps.Marker({
+                                    position: preLocation,
+                                    map: preMap,
+                                    optimized: false,
+                                    zIndex: 99999,
+                                    icon: 'img/smallMapsIcon.png',
+                                    title: 'Your position!'
+                                });
     }
 
     this.setRadius = function(radius) {

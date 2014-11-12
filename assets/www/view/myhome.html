@@ -1,16 +1,17 @@
 <div class="wrapper blue">
     <div class="menuWrapper blue">
         <div class="menu-swiper">
-            <div id="menu-top">
+            <div id="menu-top" class="darkBlue">
                 <div class="profileImage">
 
                 </div>
                 <div class="fullname"></div>
+                <div id="close"></div>
             </div>
             <div class="swiper-wrapper">
-                <div class="swiper-slider">
+                <div class="swiper-slide swiper-no-swiping">
                     <!-- First menu : list of options -->
-                    <div class="menuBreak">
+                    <div class="menuBreak green">
                         You
                     </div>
                     <div id="menuOptions">
@@ -38,7 +39,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="menuBreak">
+                    <div class="menuBreak green">
                         Friends
                     </div>
                     <div id="menuFriends">
@@ -48,16 +49,16 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="menuButtom lightGreen">
+                    <div class="menuBottom lightGreen">
                         + Add friend
                     </div>
                 </div>
-                <div class="swiper-slider">
-                    <div class="menuBreak">
+                <div class="swiper-slide swiper-no-swiping">
+                    <div class="menuBreak green">
                         <img src="img/userIcon.png" alt=""/>
                         User information
                     </div>
-                    <form action="">
+                    <div class="form">
                         <div class="title">
                             Firstname
                         </div>
@@ -66,45 +67,48 @@
                             Lastname
                         </div>
                         <input type="text" id="lastname" class="lastname"/>
-                        <input type="submit" id="editName" class="orange" value="Save"/>
-                    </form>
+                        <button id="editName" class="orange">Save</button>
+                    </div>
                     <div class="menuBottom lightGreen menuBack">
                         Go back
                     </div>
                 </div>
-                <div class="swiper-slider">
-                    <div class="menuBreak">
+                <div class="swiper-slide swiper-no-swiping">
+                    <div class="menuBreak green">
                         <img src="img/friendsIcon.png" alt=""/>
                         Friend invites
                     </div>
                     <div class="friendInvites">
                         List invites
                     </div>
-                </div>
-                <div class="swiper-slider">
-                    <div class="menuBreak">
-                        <img src="img/profilePictureIcon.png" alt=""/>
-                        Profile picture
-                    </div>
-                    <div class="picturePreview profilePicture">
-
-                    </div>
-                    <form action="">
-                        <input type="button" class="green" id="capturePicture" value="Capture new"/>
-                        <input type="button" class="lightGreen" id="fromGallery" value="From gallery"/>
-                        <input type="button" class="orange" id="savePicture" value="Save"/>
-                    </form>
-                    <div class="menuButton lightGreen menuBack">
+                    <div class="menuBottom lightGreen menuBack">
                         Go back
                     </div>
                 </div>
-                <div class="swiper-slider">
-                    <div class="menuBreak">
+                <div class="swiper-slide swiper-no-swiping">
+                    <div class="menuBreak green">
+                        <img src="img/profilePictureIcon.png" alt=""/>
+                        Profile picture
+                    </div>
+                    <div class="profileImage picturePreview">
+
+                    </div>
+                    <div class="form">
+                        <button class="green" id="capturePicture" onclick="capture();">Capture new</button>
+                        <button class="lightGreen" id="fromGallery">From gallery</button>
+                        <button class="orange" id="savePicture" style="display: none;">Save</button>
+                    </div>
+                    <div class="menuBottom lightGreen menuBack">
+                        Go back
+                    </div>
+                </div>
+                <div class="swiper-slide swiper-no-swiping">
+                    <div class="menuBreak green">
                         <img src="img/settingsIcon.png" alt=""/>
                         Settings
                     </div>
                     Insert settings configuration
-                    <div class="menuButtom lightGreen menuBack">
+                    <div class="menuBottom lightGreen menuBack">
                         Go back
                     </div>
                 </div>
@@ -151,3 +155,24 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+function capture() {
+navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
+    destinationType: Camera.DestinationType.DATA_URL
+});
+}
+
+
+
+function onSuccess(imageData) {
+    var image = $(".picturePreview");
+    image.attr("src","data:image/jpeg;base64," + imageData + ");
+}
+
+function onFail(message) {
+    alert('Failed because: ' + message);
+}
+    user.refreshUser();
+    user.getFriendList();
+</script>
