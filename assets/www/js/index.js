@@ -26,6 +26,12 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
       noSwiping: true,
       onSlideChangeStart: function(){
         var index = mySwiper.activeIndex;
+        if(index == 1) {
+            if(maps.drawnCollection === false) {
+                maps.getEggsByMe();
+//              TODO  maps.getEggsToMe();
+            }
+        }
         if(index == 0) {
             /* If map slide active, initiate */
             maps.init();
@@ -50,11 +56,21 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
         noSwiping: true,
         onSlideChangeStart: function() {
             var index = eggSwiper.activeIndex;
-            if(index == 1) {
-                user.getFriendList();
-            }
         }
     });
+
+    collectionSwiper = new Swiper('.swiper-collection',{
+        onlyExternal : true,
+        onSlideChangeStart: function(){
+            var index = collectionSwiper.activeIndex;
+        }
+      });
+
+      $(".tab").on('touchend',function(e){
+          $(".tab").removeClass('active');
+          $(this).addClass('active');
+          collectionSwiper.swipeTo($(this).index());
+        });
 
     loginSwiper = $('.login-container').swiper({
           mode:'vertical',
@@ -212,6 +228,26 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
         maps.init();
         eggSwiper.swipeTo(0);
     });
+
+    var dragging = false;
+
+    $(".eggsByMe, .eggsToMe").on("touchstart", ".singleEgg", function() {
+        dragging = false;
+    });
+
+    $(".eggsByMe, .eggsToMe").on("touchend", ".singleEgg", function() {
+        if(dragging) {
+            return;
+        }
+        var lat = $(this).data("lat");
+        var lng = $(this).data("lng");
+        var eggId = $(this).data("eggid");
+        maps.viewEgg(lat, lng, eggId);
+    });
+
+    $(".eggsByMe, .eggsToMe").on("touchmove", function() {
+        dragging = true;
+    });
 //
 //    $("form.signup .loginSubmit").on("touchend", function() {
 //        user.create($('#createEmail').val(), $('#createUsername').val(), $('#createPassword').val(), $('#createPasswordTest').val());
@@ -271,18 +307,18 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
 //        maps.pause();
 //    });
 //
-//    $(document).on("touchend", ".currentBackground .singleFriend", function(event) {
-//        if($(this).hasClass("active")) {
-//            $(this).attr("style", "");
-//            $(this).removeClass("active");
-//            maps.removeReciever($(this).attr("data-id"));
-//        } else {
-//            maps.addReciever($(this).attr("data-id"));
-//            $(this).attr("style","background: #f56f6c; opacity: 0.8;").addClass("active");
-//        }
-//    });
+    $(document).on("touchend", "#preFriendSelect .friendList .singleFriend", function(event) {
+        if($(this).hasClass("active")) {
+            $(this).attr("style", "");
+            $(this).removeClass("active");
+            maps.removeReciever($(this).attr("data-id"));
+        } else {
+            maps.addReciever($(this).attr("data-id"));
+            $(this).attr("style","background: #6e7488;").addClass("active");
+        }
+    });
 //
-//    $(".doLayEgg").on("touchend", function() {
-//        maps.doLayEgg();
-//    });
+    $("#doLeyEgg").on("touchend", function() {
+        maps.doLayEgg();
+    });
 }

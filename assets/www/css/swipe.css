@@ -96,7 +96,7 @@ Basic Swiper Styles
 Your custom styles, here you need to specify container's and slide's
 sizes, pagination, etc.
 ================================================================*/
-.swiper-container, .login-container, .swiper-container-profile, .swiper-layegg, .slider-main, .menu-swiper {
+.swiper-container, .login-container, .swiper-container-profile, .swiper-layegg, .slider-main, .menu-swiper, .swiper-collection {
 	/* Specify Swiper's Size: */
 	width:100%;
 	height: 100%;

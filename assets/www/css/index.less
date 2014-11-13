@@ -231,6 +231,80 @@ img {
     font-weight: 600;
 }
 
+/* TEST */
+
+.swiper-collection .swiper-slide {
+    overflow-y: auto;
+}
+
+.eggsByMe {
+    .singleEgg {
+        width: 100%;
+        box-sizing: border-box;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        padding: 10px;
+        .collectProfileImage {
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            width: 40px;
+            height: 40px;
+            .radius(50%);
+            float:left;
+        }
+        .collectName {
+            float:left;
+            margin-left: 15px;
+            font-size: 15px;
+            font-family: 'Open sans', Arial, sans-serif;
+            color: @white;
+            margin-top: 8px;
+        }
+        .new, .cracked {
+            float: right;
+            width: 20px;
+            height: 20px;
+            margin-top: 11px;
+            background-size: contain;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+        .cracked {
+            background-image: url("../img/smallCrackedEgg.png");
+        }
+        .new {
+            background-image: url("../img/smallEgg.png");
+        }
+        &:nth-child(2n) {
+            background: rgba(255,255,255,0.02);
+        }
+        &:after {
+            .clear();
+        }
+    }
+}
+
+.eggViewer {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 2000;
+    .eggViewerGift, .eggViewerMap {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .eggViewerGift {
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+}
+
 .menuBreak {
     box-sizing: border-box;
     padding: 13px 10px;
@@ -244,6 +318,40 @@ img {
         vertical-align:middle;
         margin-right: 4px;
     }
+}
+
+#collectionTop {
+    z-index: 100;
+    position: absolute;
+    top: -2px;
+    width: 100%;
+    button {
+        width: 50%;
+        border: none;
+        float:left;
+        box-sizing: border-box;
+        padding: 15px 0px;
+        text-align: center;
+        color: @white;
+        background: #354257;
+        font-size: 15px;
+        font-family: 'Lobster', 'Open Sans', Arial, sans-serif;
+    }
+    .active {
+        background: #458c6b;
+    }
+    &:after {
+        .clear();
+    }
+}
+
+.swiper-collection {
+    overflow: hidden;
+}
+
+.swiper-collection .swiper-wrapper .swiper-slide {
+    padding-top: 60px;
+    box-sizing: border-box;
 }
 
 

@@ -18,6 +18,7 @@ var mapsOb = function() {
     this.markers = [];
     this.circles = [];
     this.lat;
+    this.drawnCollection = false;
     this.lng;
     this.recievers = [];
     this.savedLat;
@@ -172,20 +173,14 @@ var mapsOb = function() {
                     /* Show egg prompt */
                   for (var i = 0; i < that.markers.length; i++) {
                         if (that.markers[i].id == id) {
-                            that.markers[i].setVisible(false);
-                            /* Remove the marker from Map */
                             that.markers[i].setMap(null);
-
-                            /* Remove the marker from array. */
                             that.markers.splice(i, 1);
                         }
                     }
                     for (var i = 0; i < that.circles.length; i++) {
                         if (that.circles[i].id == id) {
-                            that.circles[i].setVisible(false);
                             /* Remove the marker from Map */
                             that.circles[i].setMap(null);
-
                             /* Remove the marker from array. */
                             that.circles.splice(i, 1);
                         }
@@ -202,7 +197,6 @@ var mapsOb = function() {
     }
 
     this.onFoundEgg = function(buttonIndex) {
-        alert(buttonIndex);
         $("#showEgg img").attr("src",item.data);
         $("#showEgg").show();
     }
@@ -263,7 +257,7 @@ var mapsOb = function() {
     }
 
     this.addReciever = function(id) {
-        that.recievers.push(id);
+        that.recievers.push(parseInt(id));
         toast(that.recievers);
     }
 
@@ -276,23 +270,113 @@ var mapsOb = function() {
         $.ajax({ url: ajaxLocation+"createEgg.php",
              data: {
                 userId: user.id,
-                friendsIds: that.recievers,
+                friendIds: that.recievers,
                 gift: camera.currentEgg,
+                radius: that.radius,
                 lat: that.savedLat,
                 lng: that.savedLng,
-                radius: that.radius
                 },
              type: 'post',
              success:
              function(result) {
-                  that.recievers = [];
+                  that.recievers.length = 0;
                   camera.currentEgg = "";
                   that.savedLat = "";
                   that.savedLng = "";
                   eggSwiper.swipeTo(0);
                   maps.init();
+                  $("#preFriendSelect .friendList .singleFriend").each(function() {
+                    $(this).attr("style", "");
+                    $(this).removeClass("active");
+                  });
               }
         });
     }
 
+    this.viewEgg = function(lat, lng, eggId) {
+        var gift;
+        $.ajax({
+            url: ajaxLocation+"getGift.php",
+            data: {
+                eggid: eggId
+            },
+            type: "post",
+            success: function(result) {
+                var result = $.parseJSON(result);
+                $.each(result, function(index, item) {
+                    gift = item.gift;
+                    viewSuccess();
+                });
+            }
+        });
+
+        function viewSuccess() {
+            $(".eggViewer .eggViewerGift").attr("style","background-image: url('data:image/jpeg;base64,"+gift+"');");
+            collectionSwiper.swipeTo(2);
+        }
+    }
+
+
+    this.getEggsByMe = function() {
+        $.ajax({
+            url: ajaxLocation+"getEggsByMe.php",
+            data: {
+                userId: user.id
+            },
+            type: 'post',
+            success: function(result) {
+                  var result = $.parseJSON(result);
+                $.each(result, function(index, item) {
+                    that.drawEggsByMe(item.lat, item.lng, item.radius, item.eggId, item.userImage, item.firstname, item.lastname, item.status);
+                  });
+                  that.drawnCollection = true;
+            }
+        })
+    }
+
+    this.getEggsToMe = function() {
+        $.ajax({
+            url: ajaxLocation+"getEggsToMe.php",
+            data: {
+                userId: user.id
+            },
+            type: 'post',
+            success: function(result) {
+                var result = $.parseJSON(result);
+                $.each(result, function(index, item) {
+                    that.drawEggsToMe(item.lat, item.lng, item.radius, item.eggId, item.userImage, item.firstname, item.lastname, item.status);
+                });
+                /* Tjek egg status */
+                $(".eggsByMe .singleEgg").each(function() {
+                });
+                that.drawnCollection = true;
+            }
+        });
+    }
+
+    this.drawEggsByMe = function(lat, lng, radius, eggId, profileImage, firstname, lastname, status) {
+        $(".eggsByMe").append(
+            "<div class='singleEgg' data-lat='"+lat+"' data-lng='"+lng+"' data-radius='"+radius+"' data-eggid='"+eggId+"' data-status='"+status+"'> "
+            +"<div class='collectProfileImage' style='background-image: url(data:image/jpeg;base64,"+profileImage+");'>"
+            +"</div>"
+            +"<div class='collectName'>"
+            +firstname + " " + lastname
+            +"</div>"
+            +"<div class='"+status+"'></div>"
+            +"</div>"
+        );
+    }
+
+    this.drawEggsToMe = function() {
+        console.log(lat + lng);
+        $(".eggsToMe").append(
+            "<div class='singleEgg' data-lat='' data-lng='' data-radius='' data-eggid=''>"
+            +"<div class='collectProlfileImage' style='background-image: url(data:image/jpeg;base64,"+profileImage+");'>"
+            +"</div>"
+            +"<div class='collectName'>"
+            +firstname + " " + lastname
+            +"</div>"
+            +"</div>"
+        );
+    }
 }
