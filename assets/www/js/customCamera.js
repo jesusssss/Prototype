@@ -18,17 +18,17 @@ var cameraOb = function(DestinationType, PictureSourceType, MediaType) {
     this.captureProfile = function() {
         navigator.camera.getPicture(that.profileSuccess, that.profileFail, { quality: 50,
            destinationType: Camera.DestinationType.DATA_URL,
-           targetHeight: 300,
-           targetWidth: 300,
+           targetHeight: 400,
+           targetWidth: 400,
            correctOrientation: true
            });
     }
 
     this.captureEgg = function() {
-        navigator.camera.getPicture(that.eggSuccess, that.eggFail, { quality: 50,
+        navigator.camera.getPicture(that.eggSuccess, that.eggFail, { quality: 100,
               destinationType: Camera.DestinationType.DATA_URL,
-              targetHeight: 500,
-              targetWidth: 500,
+              targetHeight: 800,
+              targetWidth: 800,
               correctOrientation: true
           });
     }

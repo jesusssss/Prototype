@@ -248,6 +248,8 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
     $(".eggsByMe, .eggsToMe").on("touchmove", function() {
         dragging = true;
     });
+
+    $(".eggViewer").twentytwenty();
 //
 //    $("form.signup .loginSubmit").on("touchend", function() {
 //        user.create($('#createEmail').val(), $('#createUsername').val(), $('#createPassword').val(), $('#createPasswordTest').val());

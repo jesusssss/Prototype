@@ -305,13 +305,33 @@ var mapsOb = function() {
                 var result = $.parseJSON(result);
                 $.each(result, function(index, item) {
                     gift = item.gift;
-                    viewSuccess();
+                    viewSuccess(lat, lng);
                 });
             }
         });
 
-        function viewSuccess() {
+        function viewSuccess(lat, lng) {
             $(".eggViewer .eggViewerGift").attr("style","background-image: url('data:image/jpeg;base64,"+gift+"');");
+            var viewLocation = new google.maps.LatLng(lat, lng);
+            var viewOptions = {
+                zoom: 15,
+                center: viewLocation,
+                mapTypeId: that.mapTypeId,
+                draggable: false,
+                scrollwheel: false,
+                panControl: false,
+                disableDefaultUI: that.disableDefaultUI
+            }
+
+            var viewMap = new google.maps.Map(document.getElementById('eggViewerMap'), viewOptions);
+            var viewMe = new google.maps.Marker({
+                position: viewLocation,
+                map: viewMap,
+                optimized: false,
+                zIndex: 99999,
+                icon: 'img/smallMapsIcon.png',
+                title: 'Your position!'
+            });
             collectionSwiper.swipeTo(2);
         }
     }
