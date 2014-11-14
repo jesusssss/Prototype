@@ -25,6 +25,7 @@ var mapsOb = function() {
     this.savedLng;
     var that = this;
 
+    /* Initiate google maps on front and start tracking */
     this.init = function() {
         var options = {
             enableHighAccuracy: this.enableHighAccuracy,
@@ -35,31 +36,21 @@ var mapsOb = function() {
         this.watchID = navigator.geolocation.watchPosition(this.success, this.error, options);
     }
 
+    /* Pause tracking for battery */
     this.pause = function() {
         toast("Pasued");
         navigator.geolocation.clearWatch(that.watchID);
     }
 
+    /* When an successfull tracking position is made form init function, this success funtion runs */
     this.success = function(position) {
         that.lat = position.coords.latitude;
         that.lng = position.coords.longitude;
         var googleLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
+        /* If maps is already drawn, skip this. Else: Draw the map */
         if(that.mapDrawn === false) {
             that.getEggs();
-
-//            function CoordMapType(tileSize) {
-//              this.tileSize = tileSize;
-//            }
-//
-//            CoordMapType.prototype.getTile = function(coord, zoom, ownerDocument) {
-//              var div = ownerDocument.createElement('div');
-//              div.style.width = this.tileSize.width + 'px';
-//              div.style.height = this.tileSize.height + 'px';
-//              div.style.fontSize = '10';
-//              return div;
-//            };
-
             var mapOptions = {
                 zoom: that.zoom,
                 center: googleLatLng,
@@ -70,9 +61,11 @@ var mapsOb = function() {
                 disableDefaultUI: that.disableDefaultUI
             }
 
+            /* The global map */
             that.map = new google.maps.Map(document.getElementById('map'), mapOptions);
             that.mapDrawn = true;
 
+            /* The global marker showing your position */
             that.me = new google.maps.Marker({
                 position: googleLatLng,
                 map: that.map,
@@ -82,34 +75,36 @@ var mapsOb = function() {
                 title: 'Your position!'
             });
 
+            /* The global radius around your position */
             that.circle = new google.maps.Circle({
                 map: that.map,
                 radius: that.radius,
                 fillColor: '#354257',
                 strokeOpacity: 0
             });
-            that.circle.bindTo('center', that.me, 'position');
 
-//            that.map.overlayMapTypes.insertAt(
-//                  0, new CoordMapType(new google.maps.Size(256, 256)));
-//            google.maps.event.addListenerOnce(that.map, 'idle', function(){
-//                setTimeout(function() {
-//                    $("#blueOverlay").fadeIn("slow");
-//                }, 2500);
-//            });
+            /* Bind the circle to the marker */
+            that.circle.bindTo('center', that.me, 'position');
         }
 
+        /* Pan to / animate to the new position revieced from the tracker */
         that.map.panTo(googleLatLng);
+
+        /* Save the position we are currently at in global variables */
         that.me.setPosition(googleLatLng);
 
         /* setVisible on and off fixes bug from Google API v3 */
+        /**** THIS IS NOT AN v3 API BUG! THIS WAS MY OWN PHONE NOT RENDERING FAST ENOUGH ****/
+        /******** OTHER PHONES ARE WORKING FINE! ******/
         that.circle.setVisible(false);
         that.circle.setCenter(googleLatLng);
         that.circle.setVisible(true);
 
-
-
+        /* For each egg for your user, is a marker on the map */
+        /* Each of these markers, got a radius */
+        /* In this $.each function we run over all of them, to see if our current location is within one of them */
         $.each(that.circles, function(eggId, item) {
+            var bounds = item.getBounds();
             if(bounds.contains(googleLatLng) === true) {
                 that.showGift(item.id);
                 alert("Found radius bound");
@@ -119,6 +114,7 @@ var mapsOb = function() {
         });
     }
 
+    /* If we find an egg for us on our position, we run this foundegg function */
     this.foundEgg = function(eggId) {
         $.ajax({
             url: ajaxLocation+"foundEgg.php",
@@ -134,36 +130,38 @@ var mapsOb = function() {
         });
     }
 
-
+    /* When laying new egg, we draw the position on a map when we hit the egg button */
     this.drawPreLocation = function() {
         var preLocation = new google.maps.LatLng(that.lat, that.lng);
         var preOptions = {
-                        zoom: 15,
-                        center: preLocation,
-                        mapTypeId: that.mapTypeId,
-                        draggable: false,
-                        scrollwheel: false,
-                        panControl: false,
-                        disableDefaultUI: that.disableDefaultUI
-                    }
+            zoom: 15,
+            center: preLocation,
+            mapTypeId: that.mapTypeId,
+            draggable: false,
+            scrollwheel: false,
+            panControl: false,
+            disableDefaultUI: that.disableDefaultUI
+        }
 
-                    var preMap = new google.maps.Map(document.getElementById('preLocation'), preOptions);
-                    var preMe = new google.maps.Marker({
-                                    position: preLocation,
-                                    map: preMap,
-                                    optimized: false,
-                                    zIndex: 99999,
-                                    icon: 'img/smallMapsIcon.png',
-                                    title: 'Your position!'
-                                });
+        var preMap = new google.maps.Map(document.getElementById('preLocation'), preOptions);
+        var preMe = new google.maps.Marker({
+            position: preLocation,
+            map: preMap,
+            optimized: false,
+            zIndex: 99999,
+            icon: 'img/smallMapsIcon.png',
+            title: 'Your position!'
+        });
     }
 
+    /* Sets the current radius to global variable */
     this.setRadius = function(radius) {
         var radius = parseInt(radius);
         that.radius = radius;
         that.circle.setRadius(radius);
     }
 
+    /* When changing radius value, we are doing fix of visible errors for slow phones */
     this.radiusAfter = function() {
         that.circle.setVisible(false);
 
@@ -172,11 +170,13 @@ var mapsOb = function() {
         }, 500);
     }
 
+    /* Saves current location lat lng coordinates in global variables */
     this.saveCurrentPosition = function() {
         that.savedLat = that.lat;
         that.savedLng = that.lng;
     }
 
+    /* When wanting to show an egg, we run script to get picture and location of that egg from DB on server */
     this.showGift = function(id) {
         $.ajax({ url: ajaxLocation+"getGift.php",
              data: {
@@ -202,26 +202,23 @@ var mapsOb = function() {
                             that.circles.splice(i, 1);
                         }
                     }
-//                    navigator.notification.confirm(
-//                        'You found an egg!',  // message
-//                        that.onFoundEgg,              // callback to invoke with index of button pressed
-//                        'New egg',            // title
-//                        'Show me, Hide'          // buttonLabels
-//                    );
                   });
               }
         });
     }
 
+    /* Will not be used */
     this.onFoundEgg = function(buttonIndex) {
         $("#showEgg img").attr("src",item.data);
         $("#showEgg").show();
     }
 
+    /* If tracking fails, this will run */
     this.error = function(error) {
         toast('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n', 'center');
     }
 
+    /* This will get all eggs for the current logged in user */
     this.getEggs = function() {
         $.ajax({ url: ajaxLocation+"getEggs.php",
              data: {
@@ -238,13 +235,14 @@ var mapsOb = function() {
         });
     }
 
+    /* Will not be used */
     this.alertEggs = function() {
-//        $("#eggs").html(JSON.stringify(this.bounds));
         $.each(this.bounds, function(index, item) {
             $("#eggs").append(JSON.stringify(item));
         });
     }
 
+    /* Adds the single found egg to the map as hidden for user to find */
     this.addEgg = function(lat, lng, radius, eggId) {
         var radius = parseInt(radius);
         var visible = false; /* Change for visiblity of eggs */
@@ -271,16 +269,17 @@ var mapsOb = function() {
         eggCircle.bindTo('center', markEgg, 'position');
     }
 
+    /* Adds recievers to global variable */
     this.addReciever = function(id) {
         that.recievers.push(parseInt(id));
-        toast(that.recievers);
     }
 
+    /* Removes reciever from global variables */
     this.removeReciever = function(id) {
         that.recievers.splice($.inArray(id, that.recievers),1);
-        toast(that.recievers);
     }
 
+    /* When laying egg, this function will run to run DB */
     this.doLayEgg = function() {
         $.ajax({ url: ajaxLocation+"createEgg.php",
              data: {
@@ -309,6 +308,7 @@ var mapsOb = function() {
         });
     }
 
+    /* When clicking to view an egg, this will run to render the items */
     this.viewEgg = function(lat, lng, eggId) {
         var gift;
         $.ajax({
@@ -326,6 +326,7 @@ var mapsOb = function() {
             }
         });
 
+        /* On render success, this will run to set it all up */
         function viewSuccess(lat, lng) {
             $(".tabs").hide();
             $(".eggViewer .eggViewerGift").attr("style","background-image: url('data:image/jpeg;base64,"+gift+"');");
@@ -339,7 +340,6 @@ var mapsOb = function() {
                 panControl: false,
                 disableDefaultUI: that.disableDefaultUI
             }
-
             var viewMap = new google.maps.Map(document.getElementById('eggViewerMap'), viewOptions);
             var viewMe = new google.maps.Marker({
                 position: viewLocation,
@@ -353,7 +353,7 @@ var mapsOb = function() {
         }
     }
 
-
+    /* Get eggs, that was made by this user, from DB */
     this.getEggsByMe = function() {
             $(".eggsByMe").html("");
             $.ajax({
@@ -373,9 +373,10 @@ var mapsOb = function() {
                       that.drawnCollection = true;
                   }
             }
-        })
+        });
     }
 
+    /* Get eggs, that this user has already found */
     this.getEggsToMe = function() {
         $(".eggsToMe").html("");
         $.ajax({
@@ -400,11 +401,13 @@ var mapsOb = function() {
         });
     }
 
+    /* One function to get all eggs (By me - to me) */
     this.getAllEggs = function() {
         maps.getEggsByMe();
         maps.getEggsToMe();
     }
 
+    /* Render the eggs by me in DOM */
     this.drawEggsByMe = function(lat, lng, radius, eggId, profileImage, firstname, lastname, status) {
         $(".eggsByMe").append(
             "<div class='singleEgg' data-lat='"+lat+"' data-lng='"+lng+"' data-radius='"+radius+"' data-eggid='"+eggId+"' data-status='"+status+"'> "
@@ -418,6 +421,7 @@ var mapsOb = function() {
         );
     }
 
+    /* Render the eggs to me in DOM */
     this.drawEggsToMe = function(lat, lng, radius, eggId, profileImage, firstname, lastname) {
         alert(profileImage);
         $(".eggsToMe").append(

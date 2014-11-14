@@ -11,6 +11,7 @@ var userOb = function() {
     this.friendIds = [];
     var that = this;
 
+    /* Initiation function for user */
     this.init = function(id, username, password, profileImage, firstname, lastname, eggCount) {
         this.id = id;
         this.username = username;
@@ -22,6 +23,7 @@ var userOb = function() {
         this.isset = true;
     }
 
+    /* When logging in, this function will check user info in DB */
     this.login = function(user, pass) {
          $.ajax({ url: ajaxLocation+"login.php",
                  data: {
@@ -39,18 +41,20 @@ var userOb = function() {
                       }
                   }
             });
-
     }
 
+    /* Load settings from localstorage into variables through init function */
     this.load = function() {
         var userSettings = JSON.parse(localStorage.getItem("user"));
         this.init(userSettings.id, userSettings.username, userSettings.password, userSettings.profileImage, userSettings.firstname, userSettings.lastname, userSettings.eggCount);
     }
 
+    /* If user is not found in DB, this will run */
     this.loginError = function() {
         toast("Error at login - try again");
     }
 
+    /* Create user */
     this.create = function(email, username, password, passwordTest) {
         if(email == "" || username == "" || password == "" || passwordTest == "") {
             toast("Please fill out every field and try again");
@@ -79,6 +83,7 @@ var userOb = function() {
         }
     }
 
+    /* On loggin success, render user */
     this.loginSuccess = function(result) {
     /** FETCH USER INFO **/
         $.ajax({ url: ajaxLocation+"getUserInfo.php",
@@ -109,6 +114,7 @@ var userOb = function() {
         });
     }
 
+    /* Adding new profile image */
     this.newProfileImage = function(imageData) {
         $.ajax({ url: ajaxLocation+"updateProfileImage.php",
              data: {
@@ -137,6 +143,7 @@ var userOb = function() {
         toast("Profile image has been saved");
     }
 
+    /* New full name */
     this.newFullName = function(firstname, lastname) {
         $.ajax({ url: ajaxLocation+"updateFullName.php",
              data: {
@@ -165,6 +172,7 @@ var userOb = function() {
         toast("Your name has now changed");
     }
 
+    /* Refreshes user info into DOM */
     this.refreshUser = function() {
         $(".profileImage").attr("style", "background-image: url('data:image/jpeg;base64,"+user.profileImage+"'); background-repeat: no-repeat; background-position: center center; background-size: cover;");
         $(".fullname").html(user.firstname + " " + user.lastname);
@@ -177,6 +185,7 @@ var userOb = function() {
         user.getFriendList();
     }
 
+    /* Logout user */
     this.logout = function() {
         navigator.notification.confirm(
                 ("Do you want to Exit?"), // message
@@ -185,6 +194,7 @@ var userOb = function() {
                 'YES,NO' // buttonName
         );    }
 
+    /* Confirm logout (true,false) */
     this.confirmLogout = function(button) {
         if(button == 1) {
             localStorage.clear();
@@ -192,6 +202,7 @@ var userOb = function() {
         }
     }
 
+    /* Will get users friends */
     this.getFriendList = function() {
         if(this.friendsListed === false) {
             $.ajax({ url: ajaxLocation+"getFriendsList.php",
@@ -210,6 +221,7 @@ var userOb = function() {
         }
     }
 
+    /* Get users friends into DOM */
     this.drawFriends = function(friends) {
         $(".friendList ul").html("");
         $.each(friends, function(index, id) {
