@@ -28,8 +28,7 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
         var index = mySwiper.activeIndex;
         if(index == 1) {
             if(maps.drawnCollection === false) {
-                maps.getEggsByMe();
-//              TODO  maps.getEggsToMe();
+                maps.getAllEggs();
             }
         }
         if(index == 0) {
@@ -60,7 +59,8 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
     });
 
     collectionSwiper = new Swiper('.swiper-collection',{
-        onlyExternal : true,
+        onlyExternal: true,
+        noSwiping: true,
         onSlideChangeStart: function(){
             var index = collectionSwiper.activeIndex;
         }
@@ -249,7 +249,22 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
         dragging = true;
     });
 
-    $(".eggViewer").twentytwenty();
+    $(".closeButton").on("touchend", function() {
+        $(".tabs").show();
+        collectionSwiper.swipeTo(1);
+        $("#eggViewerMap").removeAttr("style");
+        $(".eggViewerGift").removeAttr("style");
+    });
+
+    $("#eggViewerMap").on("touchend", function() {
+        $(this).hide();
+        $(".eggViewerGift").show();
+    });
+
+    $(".eggViewerGift").on("touchend", function() {
+        $(this).hide();
+        $("#eggViewerMap").show();
+    });
 //
 //    $("form.signup .loginSubmit").on("touchend", function() {
 //        user.create($('#createEmail').val(), $('#createUsername').val(), $('#createPassword').val(), $('#createPasswordTest').val());

@@ -237,7 +237,7 @@ img {
     overflow-y: auto;
 }
 
-.eggsByMe {
+.eggsByMe, .eggsToMe {
     .singleEgg {
         width: 100%;
         box-sizing: border-box;
@@ -297,11 +297,25 @@ img {
         position: absolute;
         top: 0;
         left: 0;
+        z-index: 500;
     }
     .eggViewerGift {
         background-position: center center;
         background-size: cover;
         background-repeat: no-repeat;
+    }
+    .closeButton {
+        z-index: 800;
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        left: 50%;
+        margin-left: -25px;
+        bottom: 10px;
+        background-size: cover;
+        background-image: url("../img/closeIcon.png");
+        background-repeat: no-repeat;
+        background-position: center center;
     }
 }
 

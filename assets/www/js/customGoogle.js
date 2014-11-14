@@ -1,7 +1,7 @@
 var mapsOb = function() {
-    this.zoom = 17;
+    this.zoom = 16;
     this.mapTypeId = google.maps.MapTypeId.ROADMAP;
-    this.radius = 30;
+    this.radius = 110;
     this.fillColor = '#f56f6c';
     this.disableDefaultUI = true;
     this.timeout = Infinity;
@@ -110,9 +110,26 @@ var mapsOb = function() {
 
 
         $.each(that.circles, function(eggId, item) {
-            if(item.getBounds().contains(googleLatLng)) {
-                toast("Found egg");
+            if(bounds.contains(googleLatLng) === true) {
                 that.showGift(item.id);
+                alert("Found radius bound");
+                maps.pause();
+                that.foundEgg(item.id);
+            }
+        });
+    }
+
+    this.foundEgg = function(eggId) {
+        $.ajax({
+            url: ajaxLocation+"foundEgg.php",
+            data: {
+                userId: user.id,
+                eggId: eggId
+            },
+            type: "post",
+            success: function() {
+                alert("Some shit that tells you you found an egg!");
+                that.getEggsToMe();
             }
         });
     }
@@ -252,8 +269,6 @@ var mapsOb = function() {
         eggCircle.id = eggId;
         that.circles.push(eggCircle);
         eggCircle.bindTo('center', markEgg, 'position');
-
-        that.bounds[eggId] = eggCircle.getBounds();
     }
 
     this.addReciever = function(id) {
@@ -279,6 +294,7 @@ var mapsOb = function() {
              type: 'post',
              success:
              function(result) {
+                  that.getEggsByMe();
                   that.recievers.length = 0;
                   camera.currentEgg = "";
                   that.savedLat = "";
@@ -311,10 +327,11 @@ var mapsOb = function() {
         });
 
         function viewSuccess(lat, lng) {
+            $(".tabs").hide();
             $(".eggViewer .eggViewerGift").attr("style","background-image: url('data:image/jpeg;base64,"+gift+"');");
             var viewLocation = new google.maps.LatLng(lat, lng);
             var viewOptions = {
-                zoom: 15,
+                zoom: 16,
                 center: viewLocation,
                 mapTypeId: that.mapTypeId,
                 draggable: false,
@@ -338,7 +355,8 @@ var mapsOb = function() {
 
 
     this.getEggsByMe = function() {
-        $.ajax({
+            $(".eggsByMe").html("");
+            $.ajax({
             url: ajaxLocation+"getEggsByMe.php",
             data: {
                 userId: user.id
@@ -346,15 +364,20 @@ var mapsOb = function() {
             type: 'post',
             success: function(result) {
                   var result = $.parseJSON(result);
-                $.each(result, function(index, item) {
-                    that.drawEggsByMe(item.lat, item.lng, item.radius, item.eggId, item.userImage, item.firstname, item.lastname, item.status);
-                  });
-                  that.drawnCollection = true;
+                  if(result.length == 0) {
+                      $(".eggsByMe").html("<h4 style='margin-left: 10px;'>Go lay some eggs!</h4>");
+                  } else {
+                    $.each(result, function(index, item) {
+                        that.drawEggsByMe(item.lat, item.lng, item.radius, item.eggId, item.userImage, item.firstname, item.lastname, item.status);
+                      });
+                      that.drawnCollection = true;
+                  }
             }
         })
     }
 
     this.getEggsToMe = function() {
+        $(".eggsToMe").html("");
         $.ajax({
             url: ajaxLocation+"getEggsToMe.php",
             data: {
@@ -363,15 +386,23 @@ var mapsOb = function() {
             type: 'post',
             success: function(result) {
                 var result = $.parseJSON(result);
-                $.each(result, function(index, item) {
-                    that.drawEggsToMe(item.lat, item.lng, item.radius, item.eggId, item.userImage, item.firstname, item.lastname, item.status);
-                });
-                /* Tjek egg status */
-                $(".eggsByMe .singleEgg").each(function() {
-                });
-                that.drawnCollection = true;
+                if(result.length == 0) {
+                    $(".eggsToMe").html("<h4 style='margin-left: 10px;'>You have no eastereggs yet</h4>");
+                } else {
+                    $.each(result, function(index, item) {
+                        that.drawEggsToMe(item.lat, item.lng, item.radius, item.eggId, item.userImage, item.firstname, item.lastname);
+                    });
+                    /* Tjek egg status */
+                    that.drawnCollection = true;
+                }
+
             }
         });
+    }
+
+    this.getAllEggs = function() {
+        maps.getEggsByMe();
+        maps.getEggsToMe();
     }
 
     this.drawEggsByMe = function(lat, lng, radius, eggId, profileImage, firstname, lastname, status) {
@@ -387,14 +418,15 @@ var mapsOb = function() {
         );
     }
 
-    this.drawEggsToMe = function() {
-        console.log(lat + lng);
+    this.drawEggsToMe = function(lat, lng, radius, eggId, profileImage, firstname, lastname) {
+        alert(profileImage);
         $(".eggsToMe").append(
-            "<div class='singleEgg' data-lat='' data-lng='' data-radius='' data-eggid=''>"
-            +"<div class='collectProlfileImage' style='background-image: url(data:image/jpeg;base64,"+profileImage+");'>"
+            "<div class='singleEgg' data-lat='"+lat+"' data-lng='"+lng+"' data-radius='"+radius+"' data-eggid='"+eggId+"'>"
+            +"<div class='collectProfileImage' style='background-image: url(data:image/jpeg;base64,"+profileImage+");'>"
             +"</div>"
             +"<div class='collectName'>"
             +firstname + " " + lastname
+            +"<div class='"+status+"'></div>"
             +"</div>"
             +"</div>"
         );
