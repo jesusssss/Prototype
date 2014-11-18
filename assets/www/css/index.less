@@ -26,6 +26,7 @@ img {
 @green: #458c6b;
 @lightGreen: #91c46c;
 @orange: #d9a86c;
+@red: #D4192F;
 
 .boxSizing {
     box-sizing: border-box;
@@ -380,7 +381,7 @@ img {
     content: "";
 }
 
-.radius(@radius: 10px) {
+.radius(@radius: 5px) {
   -webkit-border-radius: @radius;
   -moz-border-radius: @radius;
   -ms-border-radius: @radius;
@@ -553,6 +554,10 @@ img[src="http://maps.gstatic.com/mapfiles/api-3/images/google_white2.png"], a[hr
     background: @lightGreen;
 }
 
+.red {
+    background: @red;
+}
+
 #overlay {
     position: absolute;
     width: 100%;
@@ -612,7 +617,7 @@ img[src="http://maps.gstatic.com/mapfiles/api-3/images/google_white2.png"], a[hr
     }
 }
 
-.friendList {
+.friendList, .pendingList {
     height: 212px;
     overflow-y: auto;
     ul {
@@ -640,6 +645,23 @@ img[src="http://maps.gstatic.com/mapfiles/api-3/images/google_white2.png"], a[hr
                 float:left;
                 margin-top: 8px;
                 margin-left: 15px;
+            }
+            .decide {
+                float: right;
+                .accept, .deny {
+                    .radius();
+                    border: none;
+                    padding: 5px;
+                    font-size: 11px;
+                    color: @white;
+                }
+                .accept {
+                    background: @lightGreen;
+                }
+                .deny {
+                    margin-left: 5px;
+                    background: @red;
+                }
             }
             &:after {
                 .clear();

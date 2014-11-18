@@ -183,6 +183,7 @@ var userOb = function() {
         $("input.lastname").val(user.lastname);
         $("input.username").val(user.username);
         user.getFriendList();
+        user.getFriendPending();
     }
 
     /* Logout user */
@@ -199,6 +200,113 @@ var userOb = function() {
         if(button == 1) {
             localStorage.clear();
             location.reload();
+        }
+    }
+
+    /* Will get pending friend requests */
+    this.getFriendPending = function() {
+        $(".pending .friendList ul").html("");
+        $.ajax({
+            url: ajaxLocation+"getFriendsPending.php",
+            data: {
+                id: that.id
+            },
+            type: "post",
+            success: function(friendsId) {
+                var friendsId = $.parseJSON(friendsId);
+                that.friendsPending = friendsId;
+                that.drawPending(that.friendsPending);
+            }
+        });
+    }
+
+    this.drawPending = function(pendings) {
+        $(".pending .friendList ul").html("");
+        $.each(pendings, function(index, id) {
+                    $.ajax({ url: ajaxLocation+"getUserInfo.php",
+                         data: {
+                            id: id,
+                            hidden: 'xmp3f89e'
+                            },
+                         type: 'post',
+                         success:
+                         function(friendData) {
+                              var friendData = $.parseJSON(friendData);
+                              $(".pendingList ul").append(
+                                "<li class='singleFriend'>"
+                                +"<div class='friendImage' style='background-image: url(data:image/jpeg;base64,"+friendData.profileImage+");'>"
+                                +"</div>"
+                                +"<div class='friendName'>"
+                                +friendData.firstname+" "+friendData.lastname
+                                +"</div>"
+                                +"<div class='decide'>"
+                                +"<button class='accept' data-friendid='"+friendData.id+"'>Accept</button>"
+                                +"<button class='deny' data-friendid='"+friendData.id+"'>Deny</button>"
+                                +"</div>"
+                                +"</li>"
+                              );
+                         }
+                    });
+                });
+    }
+
+    /* Will accept friend request */
+    this.acceptFriend = function(id) {
+        $.ajax({
+            url: ajaxLocation+"acceptFriend.php",
+            data: {
+                userId: user.id,
+                friendId: id
+            },
+            type: "post",
+            success: function() {
+                that.refreshUser();
+            }
+        });
+    }
+
+    /* Will deny friend request */
+    this.denyFriend = function(id) {
+        $.ajax({
+            url: ajaxLocation+"denyFriend.php",
+            data: {
+                userId: user.id,
+                friendId: id
+            },
+            type: "post",
+            success: function() {
+                that.refreshUser();
+            }
+        });
+    }
+
+    this.addFriend = function(username) {
+        if(this.username == username) {
+            toast("Why would you wanna be friends with yourself?");
+            return;
+        }
+        if(username.length != 0) {
+            $.ajax({
+                url: ajaxLocation+"addFriend.php",
+                data: {
+                    userId: user.id,
+                    username: username
+                },
+                type: "post",
+                success: function(result) {
+                    if(result == "true") {
+                        toast("Friend has been requested");
+                    }
+                    if(result == 'false') {
+                        toast("Error: Friend already requested");
+                    }
+                    if(result == 'null') {
+                        toast("User does not exist. Try again.");
+                    }
+                }
+            });
+        } else {
+            toast("Please fill out username first");
         }
     }
 

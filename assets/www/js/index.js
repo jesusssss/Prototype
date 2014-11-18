@@ -157,6 +157,10 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
         menuSwiper.swipeTo(4);
     });
 
+    $(".gotoAddFriend").on("touchend", function() {
+        menuSwiper.swipeTo(5);
+    });
+
     $(".logout").on("touchend", function() {
         user.logout();
     });
@@ -264,6 +268,18 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
     $(".eggViewerGift").on("touchend", function() {
         $(this).hide();
         $("#eggViewerMap").show();
+    });
+
+    $(".pendingList").on("touchend", ".accept", function() {
+        user.acceptFriend($(this).data("friendid"));
+    });
+
+    $(".pendingList").on("touchend", ".deny", function() {
+        user.denyFriend($(this).data("friendid"));
+    });
+
+    $("#addFriend").on("touchend", function() {
+        user.addFriend($("#requestFriend").val());
     });
 //
 //    $("form.signup .loginSubmit").on("touchend", function() {
