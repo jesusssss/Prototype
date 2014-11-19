@@ -12,13 +12,12 @@ var userOb = function() {
     var that = this;
 
     /* Initiation function for user */
-    this.init = function(id, username, password, profileImage, firstname, lastname, eggCount) {
+    this.init = function(id, username, password, profileImage, firstname, eggCount) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.profileImage = profileImage;
         this.firstname = firstname;
-        this.lastname = lastname;
         this.eggCount = eggCount;
         this.isset = true;
     }
@@ -46,7 +45,7 @@ var userOb = function() {
     /* Load settings from localstorage into variables through init function */
     this.load = function() {
         var userSettings = JSON.parse(localStorage.getItem("user"));
-        this.init(userSettings.id, userSettings.username, userSettings.password, userSettings.profileImage, userSettings.firstname, userSettings.lastname, userSettings.eggCount);
+        this.init(userSettings.id, userSettings.username, userSettings.password, userSettings.profileImage, userSettings.firstname, userSettings.eggCount);
     }
 
     /* If user is not found in DB, this will run */
@@ -55,14 +54,15 @@ var userOb = function() {
     }
 
     /* Create user */
-    this.create = function(email, username, password, passwordTest) {
-        if(email == "" || username == "" || password == "" || passwordTest == "") {
+    this.create = function(email, displayname, username, password, passwordTest) {
+        if(email == "" || displayname == "" || username == "" || password == "" || passwordTest == "") {
             toast("Please fill out every field and try again");
         }
         if(password == passwordTest) {
             $.ajax({ url: ajaxLocation+"createUser.php",
                  data: {
                     email: email,
+                    displayname: displayname,
                     username: username,
                     password: password
                     },
@@ -100,11 +100,9 @@ var userOb = function() {
                                       "password": result.password,
                                       "profileImage": userData.profileImage,
                                       "firstname": userData.firstname,
-                                      "lastname": userData.lastname,
                                       "eggCount": userData.eggCount
                                     };
                   localStorage.setItem("user", JSON.stringify(userSettings));
-                  that.load();
                   toast("Login success");
                   $("#loginForm").hide();
                   user.load();
@@ -134,7 +132,6 @@ var userOb = function() {
             "password": that.password,
             "profileImage": imageData,
             "firstname": that.firstname,
-            "lastname": that.lastname,
             "eggCount": that.eggCount
         };
         localStorage.setItem("user", JSON.stringify(newSettings));
@@ -144,17 +141,16 @@ var userOb = function() {
     }
 
     /* New full name */
-    this.newFullName = function(firstname, lastname) {
+    this.newFullName = function(firstname) {
         $.ajax({ url: ajaxLocation+"updateFullName.php",
              data: {
                 id: that.id,
                 firstname: firstname,
-                lastname: lastname
                 },
              type: 'post',
              success:
              function(userData) {
-
+                toast("Your display name has been saved");
               }
         });
         var newSettings = {
@@ -163,7 +159,6 @@ var userOb = function() {
             "password": that.password,
             "profileImage": that.profileImage,
             "firstname": firstname,
-            "lastname": lastname,
             "eggCount": that.eggCount
         };
         localStorage.setItem("user", JSON.stringify(newSettings));
@@ -174,13 +169,14 @@ var userOb = function() {
 
     /* Refreshes user info into DOM */
     this.refreshUser = function() {
+        that.friendsListed = false;
         $(".profileImage").attr("style", "background-image: url('data:image/jpeg;base64,"+user.profileImage+"'); background-repeat: no-repeat; background-position: center center; background-size: cover;");
-        $(".fullname").html(user.firstname + " " + user.lastname);
+        $(".fullname").html(user.firstname);
+        $("div.displayname").html(user.firstname);
+        $("input.displayname").html(user.firstname);
         $("div.username").html(user.username);
         $("div.firstname").html(user.firstname);
-        $("div.lastname").html(user.lastname);
         $("input.firstname").val(user.firstname);
-        $("input.lastname").val(user.lastname);
         $("input.username").val(user.username);
         user.getFriendList();
         user.getFriendPending();
@@ -205,7 +201,7 @@ var userOb = function() {
 
     /* Will get pending friend requests */
     this.getFriendPending = function() {
-        $(".pending .friendList ul").html("");
+        $(".pending .pendingList ul").html("");
         $.ajax({
             url: ajaxLocation+"getFriendsPending.php",
             data: {
@@ -214,6 +210,10 @@ var userOb = function() {
             type: "post",
             success: function(friendsId) {
                 var friendsId = $.parseJSON(friendsId);
+                if(friendsId.length == 0) {
+                    $(".pending .pendingList ul").html("<li><h2>No invites</h2></li>")
+                }
+                $(".countInvites").html(friendsId.length);
                 that.friendsPending = friendsId;
                 that.drawPending(that.friendsPending);
             }
@@ -221,7 +221,7 @@ var userOb = function() {
     }
 
     this.drawPending = function(pendings) {
-        $(".pending .friendList ul").html("");
+        $(".pending .pendingList ul").html("");
         $.each(pendings, function(index, id) {
                     $.ajax({ url: ajaxLocation+"getUserInfo.php",
                          data: {
@@ -237,7 +237,7 @@ var userOb = function() {
                                 +"<div class='friendImage' style='background-image: url(data:image/jpeg;base64,"+friendData.profileImage+");'>"
                                 +"</div>"
                                 +"<div class='friendName'>"
-                                +friendData.firstname+" "+friendData.lastname
+                                +friendData.firstname
                                 +"</div>"
                                 +"<div class='decide'>"
                                 +"<button class='accept' data-friendid='"+friendData.id+"'>Accept</button>"
@@ -260,7 +260,10 @@ var userOb = function() {
             },
             type: "post",
             success: function() {
-                that.refreshUser();
+                toast("You got a new friend!");
+                setTimeout(function() {
+                    that.refreshUser();
+                }, 1500);
             }
         });
     }
@@ -275,7 +278,10 @@ var userOb = function() {
             },
             type: "post",
             success: function() {
-                that.refreshUser();
+                toast("Denied friend request");
+                setTimeout(function() {
+                    that.refreshUser();
+                }, 1500);
             }
         });
     }
@@ -347,7 +353,7 @@ var userOb = function() {
                         +"<div class='friendImage' style='background-image: url(data:image/jpeg;base64,"+friendData.profileImage+");'>"
                         +"</div>"
                         +"<div class='friendName'>"
-                        +friendData.firstname+" "+friendData.lastname
+                        +friendData.firstname
                         +"</div>"
                         +"</li>"
                       );
@@ -355,4 +361,15 @@ var userOb = function() {
             });
         });
     }
+
+    /* Forgot password function */
+    this.forgotPassword = function(email) {
+        ajax("forgotPassword", {email: email}, this.forgotPasswordSuccess);
+    }
+
+    this.forgotPasswordSuccess = function() {
+        toast("We sent you an email with your information");
+    }
+
+
 }

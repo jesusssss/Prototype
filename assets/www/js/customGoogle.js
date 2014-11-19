@@ -10,6 +10,7 @@ var mapsOb = function() {
     this.watchID = null;
     this.mapDrawn = false;
     this.map = null;
+    this.preMap = null;
     this.me = null;
     this.circle = null;
     this.radiusToHit = null;
@@ -103,15 +104,21 @@ var mapsOb = function() {
         /* For each egg for your user, is a marker on the map */
         /* Each of these markers, got a radius */
         /* In this $.each function we run over all of them, to see if our current location is within one of them */
+        var foundEgg = false;
         $.each(that.circles, function(eggId, item) {
             var bounds = item.getBounds();
             if(bounds.contains(googleLatLng) === true) {
                 that.showGift(item.id);
-                alert("Found radius bound");
                 maps.pause();
                 that.foundEgg(item.id);
+                var foundEgg = true;
             }
         });
+
+        if(foundEgg === true) {
+            that.getEggsToMe();
+        }
+
     }
 
     /* If we find an egg for us on our position, we run this foundegg function */
@@ -124,8 +131,7 @@ var mapsOb = function() {
             },
             type: "post",
             success: function() {
-                alert("Some shit that tells you you found an egg!");
-                that.getEggsToMe();
+
             }
         });
     }
@@ -143,7 +149,7 @@ var mapsOb = function() {
             disableDefaultUI: that.disableDefaultUI
         }
 
-        var preMap = new google.maps.Map(document.getElementById('preLocation'), preOptions);
+        that.preMap = new google.maps.Map(document.getElementById('preLocation'), preOptions);
         var preMe = new google.maps.Marker({
             position: preLocation,
             map: preMap,
@@ -152,6 +158,10 @@ var mapsOb = function() {
             icon: 'img/smallMapsIcon.png',
             title: 'Your position!'
         });
+    }
+
+    this.removePreLocation = function() {
+        $("#preLocation").html("");
     }
 
     /* Sets the current radius to global variable */
@@ -423,7 +433,6 @@ var mapsOb = function() {
 
     /* Render the eggs to me in DOM */
     this.drawEggsToMe = function(lat, lng, radius, eggId, profileImage, firstname, lastname) {
-        alert(profileImage);
         $(".eggsToMe").append(
             "<div class='singleEgg' data-lat='"+lat+"' data-lng='"+lng+"' data-radius='"+radius+"' data-eggid='"+eggId+"'>"
             +"<div class='collectProfileImage' style='background-image: url(data:image/jpeg;base64,"+profileImage+");'>"

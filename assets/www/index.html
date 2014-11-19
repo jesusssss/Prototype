@@ -31,10 +31,49 @@
     <body onload="onLoad()">
         <!-- Login form -->
 
-        <div id="loginForm" class="blue">
-            <input type="text" id="loginUsername"/>
-            <input type="text" id="loginPassword"/>
-            <button id="doLogin">Login</button>
+        <div id="loginForm" class="form blue">
+            <div class="login-container">
+                <div class="loginTop">
+                    EasterEgg
+                </div>
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="center">
+                            Login
+                        </div>
+                        <input type="text" id="loginUsername" placeholder="Username"/>
+                        <input type="text" id="loginPassword" placeholder="Password"/>
+                        <button id="doLogin" class="green">Login</button>
+                        <div class="loginBottom">
+                            <div onclick="loginSwiper.swipeTo(1);" class="loginBottomLeft">
+                                Create new user
+                            </div>
+                            <div onclick="loginSwiper.swipeTo(2);" class="loginBottomRight">
+                                Forgot password?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="center">
+                            New user
+                        </div>
+                        <input type="text" id="newEmail" placeholder="Email"/>
+                        <input type="text" id="newDisplayname" placeholder="Display name"/>
+                        <input type="text" id="newUsername" placeholder="Username"/>
+                        <input type="text" id="newPassword" placeholder="Password"/>
+                        <input type="text" id="newPasswordCheck" placeholder="Password again"/>
+                        <button id="createUser" class="green">Create user</button>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="center">
+                            Forgot password    
+                        </div>
+                        <input type="text" id="forgotEmail" placeholder="Type your email"/>
+                        <button id="forgotPassword" class="green">Get information</button>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
 
@@ -103,13 +142,13 @@
                                 </div>
                                 <div class="form">
                                     <div class="title">
-                                        Firstname
+                                        Username
+                                    </div>
+                                    <input type="text" class="username" disabled="true"/>
+                                    <div class="title">
+                                        Display name
                                     </div>
                                     <input type="text" id="firstname" class="firstname"/>
-                                    <div class="title">
-                                        Lastname
-                                    </div>
-                                    <input type="text" id="lastname" class="lastname"/>
                                     <button id="editName" class="orange">Save</button>
                                 </div>
                                 <div class="menuBottom lightGreen menuBack">

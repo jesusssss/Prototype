@@ -7,13 +7,55 @@ img {
     max-width: 100%;
 }
 
+.loginTop {
+    position: absolute;
+    top: 10px;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    color: #fff;
+    font-family: 'Lobster', Arial, sans-serif;
+    font-size: 28px;
+}
+
+.login-container {
+    box-sizing: border-box;
+    padding-top: 70px;
+}
+
 #loginForm {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    padding: 20px;
+    padding: 20px 20px 0px;
     position: fixed;
     z-index: 9999;
+    input[type='text'] {
+        margin-bottom: 5px;
+    }
+    .center {
+        margin-bottom: 10px;
+        color: #fff;
+        font-family: 'Lobster', Arial, sans-serif;
+        font-size: 18px;
+    }
+    .loginBottom {
+        position: absolute;
+        font-size: 14px;
+        color: #fff;
+        width: 100%;
+        bottom: 80px;
+        text-decoration: underline;
+        .loginBottomLeft {
+            float: left;
+        }
+        .loginBottomRight {
+            float: right;
+        }
+        &:after {
+            .clear();
+        }
+    }
 }
 
 @pink: #f56f6c;
@@ -172,6 +214,15 @@ img {
                 color: @white;
                 font-size: 15px;
                 float:left;
+            }
+            .countInvites {
+                float: right;
+                font-size: 10px;
+                padding: 5px 15px;
+                .radius(5px);
+                color: @white;
+                background: @green;
+                box-sizing: border-box;
             }
             &:after {
                 .clear();

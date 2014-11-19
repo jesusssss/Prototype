@@ -17,6 +17,8 @@ function onReady() {
 
 
 /* Global vars */
+oldIndex = 0;
+
 camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.PictureSourceType, navigator.camera.MediaType);
 
     mySwiper = $('.swiper-container').swiper({
@@ -62,6 +64,7 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
         onlyExternal: true,
         noSwiping: true,
         onSlideChangeStart: function(){
+            oldIndex = collectionSwiper.previousIndex;
             var index = collectionSwiper.activeIndex;
         }
       });
@@ -75,16 +78,8 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
     loginSwiper = $('.login-container').swiper({
           mode:'vertical',
           loop: false,
-          resistance: '100%',
-          noSwiping: true
+          resistance: '100%'
     });
-
-        $("#signup").on("touchend", function() {
-            loginSwiper.swipeTo(1);
-        });
-        $("#forgotPassword").on("touchend", function() {
-            loginSwiper.swipeTo(2);
-        });
 
         profileSwiper = $(".swiper-container-profile").swiper({
             mode: 'vertical',
@@ -190,13 +185,7 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
     $(".friends").on("touchend", function() {
         user.getFriendList();
     });
-/****************************************************/
-//    /* Click events as touch events */
-//
-//    $(".fixedProfile").on("touchend", function() {
-//        profileSwiper.swipeTo(0);
-//    });
-//
+
     $("#savePicture").on("touchend", function() {
         user.newProfileImage(camera.profileImage);
         $(this).hide();
@@ -214,7 +203,7 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
         user.login($("#loginUsername").val(), $("#loginPassword").val());
     });
 
-    $('#firstname, #loginUsername, #lastname, #loginPassword').keydown(function(e){
+    $('#firstname, #newDisplayname, #loginUsername, #lastname, #loginPassword').keydown(function(e){
         if (e.which === 32) {
             e.preventDefault();
         }
@@ -255,7 +244,8 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
 
     $(".closeButton").on("touchend", function() {
         $(".tabs").show();
-        collectionSwiper.swipeTo(1);
+        collectionSwiper.swipeTo(oldIndex);
+        maps.removePreLocation();
         $("#eggViewerMap").removeAttr("style");
         $(".eggViewerGift").removeAttr("style");
     });
@@ -280,6 +270,14 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
 
     $("#addFriend").on("touchend", function() {
         user.addFriend($("#requestFriend").val());
+    });
+
+    $("#createUser").on("touchend", function() {
+        user.create($("#newEmail").val(), $("#newDisplayname").val(), $("#newUsername").val(), $("#newPassword").val(), $("#newPasswordCheck").val());
+    });
+
+    $("#forgotPassword").on("touchend", function() {
+        user.forgotPassword($("#forgotEmail").val());
     });
 //
 //    $("form.signup .loginSubmit").on("touchend", function() {
@@ -314,13 +312,13 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
 //        }
 //    });
 //
-//    $("#changeName .green").on("touchend", function() {
-//        if($("#changeName .firstname").val().length > 0 && $("#changeName .lastname").val().length > 0) {
-//            user.newFullName($("#changeName .firstname").val(), $("#changeName .lastname").val());
-//        } else {
-//            toast("No empty fields, please");
-//        }
-//    });
+    $("#editName").on("touchend", function() {
+        if($("#firstname").val().length > 0) {
+            user.newFullName($("#firstname").val());
+        } else {
+            toast("No empty fields, please");
+        }
+    });
 //
 //    $(".absoluteLayEgg").on("touchend", function() {
 //        maps.pause();
