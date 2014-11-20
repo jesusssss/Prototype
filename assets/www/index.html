@@ -13,19 +13,7 @@
         <link rel="stylesheet" type="text/css" href="css/twentytwenty.css" />
         <title>EasterEgg</title>
         <!-- TESTING -->
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQ1nzj3klCuaUot3lx7T9EHKp2xSyB918"></script>
-        <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="js/less.min.js"></script>
-        <script type="text/javascript" src="js/transition.js"></script>
-        <script type="text/javascript" src="js/rangeslider.min.js"></script>
-        <script type="text/javascript" src="js/customAjax.js"></script> <!-- Got Javascript variables to use in other libs -->
-        <script type="text/javascript" src="js/customUser.js"></script>
-        <script type="text/javascript" src="js/customGoogle.js"></script>
-        <script type="text/javascript" src="js/customCamera.js"></script>
-        <script type="text/javascript" src="js/customToast.js"></script>
-        <script type="text/javascript" src="js/swipe.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+
 
     </head>
     <body onload="onLoad()">
@@ -58,7 +46,7 @@
                             New user
                         </div>
                         <input type="text" id="newEmail" placeholder="Email"/>
-                        <input type="text" id="newDisplayname" placeholder="Display name"/>
+                        <input type="text" id="newDisplayname" maxlength="10" placeholder="Display name"/>
                         <input type="text" id="newUsername" placeholder="Username"/>
                         <input type="text" id="newPassword" placeholder="Password"/>
                         <input type="text" id="newPasswordCheck" placeholder="Password again"/>
@@ -110,10 +98,10 @@
                                             <div class="icon"><img src="img/profilePictureIcon.png" alt=""/></div>
                                             <div class="label">Profile picture</div>
                                         </li>
-                                        <li class="gotoSettings">
-                                            <div class="icon"><img src="img/settingsIcon.png" alt=""/></div>
-                                            <div class="label">Settings</div>
-                                        </li>
+                                        <!--<li class="gotoSettings">-->
+                                            <!--<div class="icon"><img src="img/settingsIcon.png" alt=""/></div>-->
+                                            <!--<div class="label">Settings</div>-->
+                                        <!--</li>-->
                                         <li class="logout">
                                             <div class="icon"><img src="img/shutdownIcon.png" alt=""/></div>
                                             <div class="label">Log off</div>
@@ -148,7 +136,7 @@
                                     <div class="title">
                                         Display name
                                     </div>
-                                    <input type="text" id="firstname" class="firstname"/>
+                                    <input type="text" maxlength="10" id="firstname" class="firstname"/>
                                     <button id="editName" class="orange">Save</button>
                                 </div>
                                 <div class="menuBottom lightGreen menuBack">
@@ -238,16 +226,25 @@
                                 </div>
                                 <div class="swiper-wrapper">
                                     <div class="swiper-slide ">
+                                        <div id="successView">
+                                            <div id="successViewTop">
+
+                                            </div>
+                                            <div id="successViewContent">
+
+                                            </div>
+                                            <div class="successViewEggsNow">View egg</div>
+                                        </div>
                                         <div id="overlay"></div>
                                         <div id="map">
                                         </div>
                                         <div id="mainBottom" class="green">
                                             <div class="center">
                                                 <div id="radiusValue">
-                                                    110m
+                                                    525m
                                                 </div>
                                                 <div id="radius">
-                                                    <input type="range" min="10" max="200" step="1" style="width: 100%;" value="110">
+                                                    <input type="range" min="50" max="1000" step="1" style="width: 100%;" value="525">
                                                 </div>
                                                 <div id="layEgg">
                                                     <img src="img/bigEgg.png" height="55" alt=""/>
@@ -274,7 +271,7 @@
                                         <div id="preFriendSelect">
                                             <div class="friendList">
                                                 <ul>
-
+                                                    <li><h2>You need some friends first</h2></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -317,6 +314,19 @@
                     </div>
                 </div>
             </div>
+            <script type="text/javascript" src="cordova.js"></script>
+            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQ1nzj3klCuaUot3lx7T9EHKp2xSyB918"></script>
+            <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+            <script type="text/javascript" src="js/less.min.js"></script>
+            <script type="text/javascript" src="js/transition.js"></script>
+            <script type="text/javascript" src="js/rangeslider.min.js"></script>
+            <script type="text/javascript" src="js/customAjax.js"></script> <!-- Got Javascript variables to use in other libs -->
+            <script type="text/javascript" src="js/customUser.js"></script>
+            <script type="text/javascript" src="js/customGoogle.js"></script>
+            <script type="text/javascript" src="js/customCamera.js"></script>
+            <script type="text/javascript" src="js/customToast.js"></script>
+            <script type="text/javascript" src="js/swipe.js"></script>
+            <script type="text/javascript" src="js/index.js"></script>
             <script type="text/javascript" src="js/toolbox.js"></script>
 
             <script type="text/javascript">

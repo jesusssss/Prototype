@@ -1,7 +1,7 @@
 var mapsOb = function() {
-    this.zoom = 16;
+    this.zoom = 14;
     this.mapTypeId = google.maps.MapTypeId.ROADMAP;
-    this.radius = 110;
+    this.radius = 500;
     this.fillColor = '#f56f6c';
     this.disableDefaultUI = true;
     this.timeout = Infinity;
@@ -39,7 +39,6 @@ var mapsOb = function() {
 
     /* Pause tracking for battery */
     this.pause = function() {
-        toast("Pasued");
         navigator.geolocation.clearWatch(that.watchID);
     }
 
@@ -86,6 +85,7 @@ var mapsOb = function() {
 
             /* Bind the circle to the marker */
             that.circle.bindTo('center', that.me, 'position');
+            that.init();
         }
 
         /* Pan to / animate to the new position revieced from the tracker */
@@ -131,7 +131,14 @@ var mapsOb = function() {
             },
             type: "post",
             success: function() {
-
+                $("#successView").fadeIn();
+                  $("#successViewTop").html("You found something!");
+                  $("#successViewContent").html("You got new egg(s)!");
+                  $(".successViewEggsNow").show();
+                  setTimeout(function() {
+                    $("#successView").fadeOut();
+                    $(".successViewEggsNow").hide();
+                  }, 5000);
             }
         });
     }
@@ -152,7 +159,7 @@ var mapsOb = function() {
         that.preMap = new google.maps.Map(document.getElementById('preLocation'), preOptions);
         var preMe = new google.maps.Marker({
             position: preLocation,
-            map: preMap,
+            map: that.preMap,
             optimized: false,
             zIndex: 99999,
             icon: 'img/smallMapsIcon.png',
@@ -291,6 +298,10 @@ var mapsOb = function() {
 
     /* When laying egg, this function will run to run DB */
     this.doLayEgg = function() {
+        if(that.recievers.length == 0) {
+            toast("No friends to send to");
+            return;
+        }
         $.ajax({ url: ajaxLocation+"createEgg.php",
              data: {
                 userId: user.id,
@@ -314,6 +325,12 @@ var mapsOb = function() {
                     $(this).attr("style", "");
                     $(this).removeClass("active");
                   });
+                  $("#successView").fadeIn();
+                  $("#successViewTop").html("Success");
+                  $("#successViewContent").html("You layed an egg!");
+                  setTimeout(function() {
+                    $("#successView").fadeOut();
+                  }, 5000);
               }
         });
     }
@@ -331,13 +348,24 @@ var mapsOb = function() {
                 var result = $.parseJSON(result);
                 $.each(result, function(index, item) {
                     gift = item.gift;
-                    viewSuccess(lat, lng);
+                    viewSuccess(lat, lng, eggId);
                 });
             }
         });
 
         /* On render success, this will run to set it all up */
-        function viewSuccess(lat, lng) {
+        function viewSuccess(lat, lng, eggId) {
+            $.ajax({
+                url: ajaxLocation+"viewEgg.php",
+                data: {
+                    userId: user.id,
+                    eggId: eggId
+                },
+                type: "post",
+                success: function(result) {
+                }
+            });
+
             $(".tabs").hide();
             $(".eggViewer .eggViewerGift").attr("style","background-image: url('data:image/jpeg;base64,"+gift+"');");
             var viewLocation = new google.maps.LatLng(lat, lng);
@@ -365,6 +393,7 @@ var mapsOb = function() {
 
     /* Get eggs, that was made by this user, from DB */
     this.getEggsByMe = function() {
+            that.drawnCollection = false;
             $(".eggsByMe").html("");
             $.ajax({
             url: ajaxLocation+"getEggsByMe.php",
@@ -378,7 +407,7 @@ var mapsOb = function() {
                       $(".eggsByMe").html("<h4 style='margin-left: 10px;'>Go lay some eggs!</h4>");
                   } else {
                     $.each(result, function(index, item) {
-                        that.drawEggsByMe(item.lat, item.lng, item.radius, item.eggId, item.userImage, item.firstname, item.lastname, item.status);
+                        that.drawEggsByMe(item.lat, item.lng, item.radius, item.eggId, item.userImage, item.firstname, item.lastname, item.status, item.dateTime);
                       });
                       that.drawnCollection = true;
                   }
@@ -388,6 +417,7 @@ var mapsOb = function() {
 
     /* Get eggs, that this user has already found */
     this.getEggsToMe = function() {
+        that.drawnCollection = false;
         $(".eggsToMe").html("");
         $.ajax({
             url: ajaxLocation+"getEggsToMe.php",
@@ -401,12 +431,16 @@ var mapsOb = function() {
                     $(".eggsToMe").html("<h4 style='margin-left: 10px;'>You have no eastereggs yet</h4>");
                 } else {
                     $.each(result, function(index, item) {
-                        that.drawEggsToMe(item.lat, item.lng, item.radius, item.eggId, item.userImage, item.firstname, item.lastname);
+                        that.drawEggsToMe(item.lat, item.lng, item.radius, item.eggId, item.userImage, item.firstname, item.lastname, item.status, item.dateTime);
                     });
                     /* Tjek egg status */
                     that.drawnCollection = true;
                 }
-
+                $(".eggsToMe .singleEgg").each(function() {
+                    if($(this).find(".new").length) {
+                        $(this).addClass("orange");
+                    }
+                });
             }
         });
     }
@@ -418,29 +452,31 @@ var mapsOb = function() {
     }
 
     /* Render the eggs by me in DOM */
-    this.drawEggsByMe = function(lat, lng, radius, eggId, profileImage, firstname, lastname, status) {
+    this.drawEggsByMe = function(lat, lng, radius, eggId, profileImage, firstname, lastname, status, timestamp) {
         $(".eggsByMe").append(
             "<div class='singleEgg' data-lat='"+lat+"' data-lng='"+lng+"' data-radius='"+radius+"' data-eggid='"+eggId+"' data-status='"+status+"'> "
             +"<div class='collectProfileImage' style='background-image: url(data:image/jpeg;base64,"+profileImage+");'>"
             +"</div>"
             +"<div class='collectName'>"
-            +firstname + " " + lastname
+            +firstname
             +"</div>"
             +"<div class='"+status+"'></div>"
+            +"<div class='timestamp'>"+timestamp+"</div>"
             +"</div>"
         );
     }
 
     /* Render the eggs to me in DOM */
-    this.drawEggsToMe = function(lat, lng, radius, eggId, profileImage, firstname, lastname) {
+    this.drawEggsToMe = function(lat, lng, radius, eggId, profileImage, firstname, lastname, status, timestamp) {
         $(".eggsToMe").append(
             "<div class='singleEgg' data-lat='"+lat+"' data-lng='"+lng+"' data-radius='"+radius+"' data-eggid='"+eggId+"'>"
             +"<div class='collectProfileImage' style='background-image: url(data:image/jpeg;base64,"+profileImage+");'>"
             +"</div>"
             +"<div class='collectName'>"
-            +firstname + " " + lastname
-            +"<div class='"+status+"'></div>"
+            +firstname
             +"</div>"
+            +"<div class='"+status+"'></div>"
+            +"<div class='timestamp'>"+timestamp+"</div>"
             +"</div>"
         );
     }

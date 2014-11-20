@@ -338,6 +338,9 @@ var userOb = function() {
     /* Get users friends into DOM */
     this.drawFriends = function(friends) {
         $(".friendList ul").html("");
+        if(friends.length == 0) {
+            $(".friendList ul").html("<li><h3>No friends</h3></li>");
+        }
         $.each(friends, function(index, id) {
             $.ajax({ url: ajaxLocation+"getUserInfo.php",
                  data: {

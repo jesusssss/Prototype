@@ -103,7 +103,6 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
           $(".profileNav ul li").removeClass("active");
           $(this).addClass("active");
       });
-
 //    /* Init Geolocation - first */
 //    var options = { timeout: 30000 };
 //    navigator.geolocation.getCurrentPosition(geoSuccess, geoError); /* Initiate maps from GEO location */
@@ -222,6 +221,10 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
         eggSwiper.swipeTo(0);
     });
 
+    $("#eggIcon").on("click", function() {
+        mySwiper.swipeTo(1);
+    });
+
     var dragging = false;
 
     $(".eggsByMe, .eggsToMe").on("touchstart", ".singleEgg", function() {
@@ -235,6 +238,12 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
         var lat = $(this).data("lat");
         var lng = $(this).data("lng");
         var eggId = $(this).data("eggid");
+        if($(this).parent().attr("class") == 'eggsToMe') {
+            if($(this).find("div.new").length) {
+                $(this).removeClass("orange");
+                $(this).find("div.new").removeClass("new").addClass("cracked");
+            }
+        }
         maps.viewEgg(lat, lng, eggId);
     });
 
@@ -278,6 +287,10 @@ camera = new cameraOb(navigator.camera.DestinationType, navigator.camera.Picture
 
     $("#forgotPassword").on("touchend", function() {
         user.forgotPassword($("#forgotEmail").val());
+    });
+
+    $(document).on("touchend", ".successViewEggsNow", function() {
+        mySwiper.swipeTo(1);
     });
 //
 //    $("form.signup .loginSubmit").on("touchend", function() {
